@@ -1,23 +1,18 @@
+import { Registration } from "../registration/registration"
 import { ChangeEvent, Component, FormEvent } from "react";
+import { Logo } from "../logo/logo"
 
-interface RegistrationState {
-    firstname?: string,
-    lastname?: string,
+interface LoginState {
     email?: string,
     password?: string,
 }
 
-interface RegistrationProps {}
+interface LoginProps {}
 
-
-
-export class Registration extends Component<any, RegistrationState>{
-
+export class Login extends Component<any, LoginState>{
     constructor(props) {
         super(props);
         this.state = {
-            firstname: "",
-            lastname: "",
             email: "",
             password: ""
         };
@@ -32,14 +27,12 @@ export class Registration extends Component<any, RegistrationState>{
     handleSubmit = (evt: FormEvent) => {
         evt.preventDefault();
 
-        fetch("/register", {
+        fetch("/login", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                firstname: this.state.firstname,
-                lastname: this.state.lastname,
                 email: this.state.email,
                 password: this.state.password
             })
@@ -58,22 +51,10 @@ export class Registration extends Component<any, RegistrationState>{
     }
 
     render() {
-        console.log("state:", this.state);
+        // console.log("state:", this.state);
         return <div>
-            <h1>WELCOME</h1>
-            {/* <LogoComponent /> */}
-            <h2>Sign up and have fun!</h2>
+           <Logo />
             <form onSubmit={this.handleSubmit}>
-                <div>
-                    <span>Firstname</span>
-                    <br />
-                    <input required name="firstname" type="text" onChange={this.handleInputChange} />
-                </div>
-                <div>
-                    <span>Lastname</span>
-                    <br />
-                    <input required name="lastname" type="text" onChange={this.handleInputChange} />
-                </div>
                 <div>
                     <span>Email</span>
                     <br />
@@ -83,11 +64,10 @@ export class Registration extends Component<any, RegistrationState>{
                     <span>Password</span>
                     <br />
                     <input required name="password" type="password" onChange={this.handleInputChange} />
-                    <br />
                 </div>
-                <button>Register</button>
+                <br />
+                <button>Enter</button>
             </form>
-            {/*<a href="<Login />" <p>If you are already a member, log in please.</p></a> */}
         </div>
     }
 }

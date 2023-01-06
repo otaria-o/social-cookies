@@ -14,8 +14,9 @@ app.use(cookieSession( {
 }));
 
 // connecting files
-const db = require("./sql/db.js")
+const { addUser } = require("./sql/db.js")
 const crypt = require("../bcrypt.js")
+const { sesEmail } = require("./ses.js")
 
 // GET
 app.get("*", function (req, res) {
@@ -30,7 +31,7 @@ app.post("/register", (req, res) => {
     crypt.hash(req.body.password)
     .then(hashedPsw => {
         console.log(hashedPsw)
-        return db.addUser(req.body.firstname, req.body.lastname, req.body.email, hashedPsw)
+        return addUser(req.body.firstname, req.body.lastname, req.body.email, hashedPsw)
     })
     .then(data => {
         console.log("data", data)
