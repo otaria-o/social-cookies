@@ -1,13 +1,11 @@
 import { Registration } from "../registration/registration"
 import { ChangeEvent, Component, FormEvent } from "react";
-import { Logo } from "../logo/logo"
+// import { Logo } from "../logo/logo"
 
 interface LoginState {
     email?: string,
     password?: string,
 }
-
-interface LoginProps {}
 
 export class Login extends Component<any, LoginState>{
     constructor(props) {
@@ -53,7 +51,6 @@ export class Login extends Component<any, LoginState>{
     render() {
         // console.log("state:", this.state);
         return <div>
-           <Logo />
             <form onSubmit={this.handleSubmit}>
                 <div>
                     <span>Email</span>

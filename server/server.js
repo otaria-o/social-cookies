@@ -14,7 +14,7 @@ app.use(cookieSession( {
 }));
 
 // connecting files
-const { addUser } = require("./sql/db.js")
+const { addUser, checkEmail } = require("./sql/db.js")
 const crypt = require("../bcrypt.js")
 const { sesEmail } = require("./ses.js")
 
@@ -44,6 +44,30 @@ app.post("/register", (req, res) => {
         res.json({success: false})
         })
 });
+
+app.post("/login", (req, res) => {
+    checkEmail(req.body.email)
+    .then(data => {
+        // console.log("query", data.rows)
+        if (data.rows.length === 1) {
+            // console.log("email", data.rows[0].email)
+            // console.log("password", data.rows[0].password)
+            crypt.compare(req.body.password, data.rows[0].password)
+            .then(bool => {
+                // console.log("controllo password", bool)
+                if (bool) {
+                    console.log("id users", data.rows[0].id)
+                    req.session.userId = data.rows[0].id
+                    res.json({success: true})
+                }
+            })
+        }
+    })
+        .catch(err => {
+            console.log("error appeared for post req login:", err);
+            res.json({success: false})
+            })
+})
 
 
 app.listen(PORT, function () {

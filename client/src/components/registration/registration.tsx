@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { ChangeEvent, Component, FormEvent } from "react";
 // import { Logo } from "../logo/logo"
-// import { Login } from "../login/login"
+import { Login } from "../login/login"
 
 interface RegistrationState {
     firstname?: string,
@@ -9,8 +9,6 @@ interface RegistrationState {
     email?: string,
     password?: string,
 }
-
-interface RegistrationProps {}
 
 export class Registration extends Component<any, RegistrationState>{
 
@@ -61,8 +59,10 @@ export class Registration extends Component<any, RegistrationState>{
     render() {
         // console.log("state:", this.state);
         return <div>
-            <h1>WELCOME</h1>
-            <h2>Sign up and have fun!</h2>
+            <div>
+                <h1>WELCOME</h1>
+                <h2>Sign up and have fun!</h2>
+            </div>
             <form onSubmit={this.handleSubmit}>
                 <div>
                     <span>Firstname</span>
@@ -87,10 +87,11 @@ export class Registration extends Component<any, RegistrationState>{
                 <br />
                 <button>Register</button>
             </form>
-      
+            <p>If you are already a member, <Link to="/login">log in please.</Link></p>
         </div>
     }
 }
 
 
-{/* <p>If you are already a member, <Link to="/login">log in please.</Link></p> */}
+
+
