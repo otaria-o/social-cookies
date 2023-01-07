@@ -8,6 +8,7 @@ interface RegistrationState {
     lastname?: string,
     email?: string,
     password?: string,
+    errorMessage?: string
 }
 
 export class Registration extends Component<any, RegistrationState>{
@@ -18,7 +19,8 @@ export class Registration extends Component<any, RegistrationState>{
             firstname: "",
             lastname: "",
             email: "",
-            password: ""
+            password: "",
+            errorMessage: ""
         };
     }
 
@@ -40,7 +42,8 @@ export class Registration extends Component<any, RegistrationState>{
                 firstname: this.state.firstname,
                 lastname: this.state.lastname,
                 email: this.state.email,
-                password: this.state.password
+                password: this.state.password,
+                errorMessage: this.state.errorMessage
             })
         })
         .then(res => {
@@ -53,17 +56,17 @@ export class Registration extends Component<any, RegistrationState>{
         .catch(err => {
             console.log("errore nella fetch!!", err)
             // ritorna il messaggio di errore
+            this.setState({ errorMessage: "Sorry, something went wrong. Fill up all the fields, please." })
         })
     }
 
     render() {
         // console.log("state:", this.state);
-        return <div>
+        return <div id="welcome">
             <div>
                 <h1>WELCOME</h1>
-                <h2>Sign up and have fun!</h2>
-            </div>
-            <form onSubmit={this.handleSubmit}>
+            </div><br />
+            <form id="registration" onSubmit={this.handleSubmit}>
                 <div>
                     <span>Firstname</span>
                     <br />
@@ -86,8 +89,9 @@ export class Registration extends Component<any, RegistrationState>{
                 </div>
                 <br />
                 <button>Register</button>
-            </form>
+            </form><br />
             <p>If you are already a member, <Link to="/login">log in please.</Link></p>
+            <h2 className="error">{this.state.errorMessage}</h2>
         </div>
     }
 }

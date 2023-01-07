@@ -1,5 +1,5 @@
 export function Logo() {
         return <div>
-                <img src="coo.jpg" alt="cookies" />
+                <img id="logo" src="cookies.jpg" alt="cookies" />
         </div>   
 }
