@@ -1,18 +1,21 @@
-import { Registration } from "../registration/registration"
 import { ChangeEvent, Component, FormEvent } from "react";
-// import { Logo } from "../logo/logo"
+import { Link } from "react-router-dom";
 
-interface LoginState {
+interface RegistrationState {
+    firstname?: string,
+    lastname?: string,
     email?: string,
     password?: string,
+    errorMessage?: string
 }
 
-export class Login extends Component<any, LoginState>{
+export class Login extends Component<any, RegistrationState>{
     constructor(props) {
         super(props);
         this.state = {
             email: "",
-            password: ""
+            password: "",
+            errorMessage: ""
         };
     }
 
@@ -32,7 +35,8 @@ export class Login extends Component<any, LoginState>{
             },
             body: JSON.stringify({
                 email: this.state.email,
-                password: this.state.password
+                password: this.state.password,
+                errorMessage: this.state.errorMessage
             })
         })
         .then(res => {
@@ -45,13 +49,17 @@ export class Login extends Component<any, LoginState>{
         .catch(err => {
             console.log("errore nella fetch!!", err)
             // ritorna il messaggio di errore
+            this.setState({ errorMessage: "Sorry, something went wrong." })
         })
     }
 
     render() {
         // console.log("state:", this.state);
-        return <div>
-            <form onSubmit={this.handleSubmit}>
+        return <div className="welcome">
+            <div>
+                <h2>Happy to see you again</h2>
+            </div><br />
+            <form className="registrationorlogin" onSubmit={this.handleSubmit}>
                 <div>
                     <span>Email</span>
                     <br />
@@ -64,7 +72,9 @@ export class Login extends Component<any, LoginState>{
                 </div>
                 <br />
                 <button>Enter</button>
-            </form>
+            </form><br />
+            <Link to="/reset"><p>Forgot the password?</p></Link>
+            <h3 className="error">{this.state.errorMessage}</h3>
         </div>
     }
 }

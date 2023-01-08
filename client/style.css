@@ -12,23 +12,26 @@ body {
     background-color: goldenrod;
 }
 
- #logo {
+#logo {
     width: 600px;
     height: 300px;
     margin-top: 40px;
- }
+    padding: 10px;
+    border: 2px solid brown;
+}
 
- #registration {
+.registrationorlogin {
     background-color: bisque;
     padding: 10px;
- }
+    border: 2px solid brown;
+}
 
- #welcome {
+.welcome {
     display: grid;
     justify-items: center;
     padding: 30px;
- }
+}
 
- .class {
+.error {
     color: red;
- }
+}

@@ -48,25 +48,24 @@ app.post("/register", (req, res) => {
 app.post("/login", (req, res) => {
     checkEmail(req.body.email)
     .then(data => {
-        if (data.rows[0].email.length === 1 && crypt.compare(req.body.password, data.rows[0].password)) {
+        if (data.rows.length === 1) {
             console.log("email", data.rows[0].email)
             console.log("password", data.rows[0].password)
-            req.session.userId = data.rows[0].id
-        } else {
-            res.json({success: false})
+            crypt.compare(req.body.password, data.rows[0].password)
+            .then(bool => {
+                if (bool) {
+                    console.log("controllo password:", bool)
+                    req.session.userId = data.rows[0].id
+                    res.json({success: true})
+                }    
+            })
         }
-    })
-    .then(bool => {
-        console.log("controllo email && password:", bool)
-        // console.log("id users", data.rows[0].id)
-        res.json({success: true})
     })
     .catch(err => {
         console.log("error appeared for post req login:", err);
         res.json({success: false})
     })
 })
-
 
 app.listen(PORT, function () {
     console.log(`Express server listening on port ${PORT}`);
