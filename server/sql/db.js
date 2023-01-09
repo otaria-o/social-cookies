@@ -17,8 +17,17 @@ exports.checkEmail = function(email) {
 
 // insert into the table the secret code of the user who forgot the password
 exports.insertCode = function(code, email) {
-    return db.query(`INSERT INTO reset_codes (code) VALUE ($1) WHERE email = $2;`, [code, email])
+    return db.query(`INSERT INTO reset_codes (code, email) VALUES ($1,$2);`, [code, email])
 }
 
 // select the code that matches the email
+exports.selectNewCode = function(email) {
+    return db.query(`SELECT code from reset_codes where email = ($1) AND timestamp > current_timestamp - interval '10 minutes';`, [email])
+}
+
+// update password after the reset
+exports.updatePassword = function(password, email) {
+    return db.query(`UPDATE users SET password = $1 where email = $2;`, [password, email])
+}
+
 
