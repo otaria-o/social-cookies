@@ -21,7 +21,7 @@ exports.insertCode = function(code, email) {
 }
 
 // select the code that matches the email
-exports.selectNewCode = function(email) {
+exports.selectCode = function(email) {
     return db.query(`SELECT code from reset_codes where email = ($1) AND timestamp > current_timestamp - interval '10 minutes';`, [email])
 }
 

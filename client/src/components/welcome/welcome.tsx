@@ -13,6 +13,7 @@ export function Welcome() {
         <div>
             <BrowserRouter>
                 <Routes>
+                    <Route path="/reset/pwd" element={<ResetPassword />}></Route>
                     <Route path="/reset" element={<ResetPassword />}></Route>
                     <Route path="/login" element={<Login />}></Route>
                     <Route path="/" element={<Registration />}></Route>

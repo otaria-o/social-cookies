@@ -3,14 +3,14 @@ import { ChangeEvent, Component, FormEvent } from "react";
 // import { Logo } from "../logo/logo"
 
 interface RegistrationState {
-    firstname?: string,
-    lastname?: string,
-    email?: string,
-    password?: string,
+    firstname: string,
+    lastname: string,
+    email: string,
+    password: string,
     errorMessage?: string
 }
 
-export class Registration extends Component<any, RegistrationState>{
+export class Registration extends Component<any, RegistrationState> {
 
     constructor(props) {
         super(props);
@@ -26,7 +26,9 @@ export class Registration extends Component<any, RegistrationState>{
     handleInputChange = (evt: ChangeEvent<HTMLInputElement>) => {
         const property: string = evt.target.name; 
         // will update firstname prop dynamically in this.state variable
-        this.setState({ [property]: evt.target.value });
+        this.setState({ 
+            ...this.state,
+            [property]: evt.target.value });
     }
 
     handleSubmit = (evt: FormEvent) => {
