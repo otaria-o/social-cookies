@@ -1,17 +1,10 @@
-import { ConfigurationServicePlaceholders } from "aws-sdk/lib/config_service_placeholders";
+// import { ConfigurationServicePlaceholders } from "aws-sdk/lib/config_service_placeholders";
 import { ChangeEvent, Component, FormEvent } from "react";
 import { Link } from "react-router-dom";
 import { Logo } from "../logo/logo"
 
-interface ResetState {
-    step?: "1" | "2" | "3",
-    email?: string,
-    password?: string,
-    code?: string,
-    errorMessage?: string
-}
 
-export class ResetPassword extends Component<any, ResetState> {
+export class ResetPassword extends Component {
     constructor(props) {
         super(props);
         this.state = { 
@@ -23,13 +16,13 @@ export class ResetPassword extends Component<any, ResetState> {
           };
     }
     
-    handleInputChange = (evt: ChangeEvent<HTMLInputElement>) => {
-        const property: string = evt.target.name; 
+    handleInputChange = (evt) => {
+        const property = evt.target.name; 
         // will update firstname prop dynamically in this.state variable
         this.setState({ [property]: evt.target.value });
     }
 
-    handleSubmit = (evt: FormEvent) => {
+    handleSubmit = (evt) => {
         evt.preventDefault();
         console.log(this.state)
         switch (this.state.step) {

@@ -2,15 +2,8 @@ import { ChangeEvent, Component, FormEvent } from "react";
 import { Link } from "react-router-dom";
 import { Logo } from "../logo/logo"
 
-interface RegistrationState {
-    firstname?: string,
-    lastname?: string,
-    email?: string,
-    password?: string,
-    errorMessage?: string
-}
 
-export class Login extends Component<any, RegistrationState>{
+export class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -20,13 +13,13 @@ export class Login extends Component<any, RegistrationState>{
         };
     }
 
-    handleInputChange = (evt: ChangeEvent<HTMLInputElement>) => {
-        const property: string = evt.target.name; 
+    handleInputChange = (evt) => {
+        const property = evt.target.name; 
         // will update firstname prop dynamically in this.state variable
         this.setState({ [property]: evt.target.value });
     }
 
-    handleSubmit = (evt: FormEvent) => {
+    handleSubmit = (evt) => {
         evt.preventDefault();
 
         fetch("/login", {
