@@ -1,15 +1,18 @@
 import { Component } from "react";
+import { Logo } from "../logo/logo"
 
 export class App extends Component {
     constructor(props) {
         super(props);
         this.state = {};
-        // bind stuff if you use normal functions
+        
     }
 
-    // render() {
-    //     return <div>
-    //         {/* <LogoComponent /> */}
-    //             </div>
-    // }
+    render() {
+        return <div>
+            <div>
+                <Logo /> 
+            </div>
+                </div>
+    }
 }

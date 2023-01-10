@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { ChangeEvent, Component, FormEvent } from "react";
-// import { Logo } from "../logo/logo"
+import { Logo } from "../logo/logo"
 
 interface RegistrationState {
     firstname: string,
@@ -64,6 +64,9 @@ export class Registration extends Component<any, RegistrationState> {
     render() {
         // console.log("state:", this.state);
         return <div className="welcome">
+            <div>
+                <Logo />
+            </div>
             <div>
                 <h1>WELCOME</h1>
             </div><br />

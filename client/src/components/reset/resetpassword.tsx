@@ -1,6 +1,7 @@
 import { ConfigurationServicePlaceholders } from "aws-sdk/lib/config_service_placeholders";
 import { ChangeEvent, Component, FormEvent } from "react";
 import { Link } from "react-router-dom";
+import { Logo } from "../logo/logo"
 
 interface ResetState {
     step?: "1" | "2" | "3",
@@ -141,6 +142,9 @@ export class ResetPassword extends Component<any, ResetState> {
     
     render() {
         return <div>
+        <div>
+            <Logo />
+        </div>
         <div>
             <h3>Reset the password</h3>
         </div>
