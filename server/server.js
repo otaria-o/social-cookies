@@ -15,7 +15,7 @@ app.use(cookieSession( {
 }));
 
 // connecting files
-const { addUser, checkEmail, insertCode } = require("./sql/db.js")
+const { addUser, checkEmail, insertCode, selectCode, updatePassword } = require("./sql/db.js")
 const crypt = require("../bcrypt.js")
 
 app.use((req, res, next) => {
@@ -99,16 +99,20 @@ app.post("/reset", (req, res) => {
 app.post("/reset/pwd", (req, res) => {
     selectCode(req.body.email)
     .then(data => {
-        if (data.rows.length === 1) {
-            console.log("email", data.rows)
+        console.log("verifica il codice segreto", data)
+        if (data.rows.length >= 1) {
             crypt.hash(req.body.password)
+            .then(newPwd => {
+                updatePassword(newPwd, req.body.email).then(data => {
+                    console.log("successo?", data)
+                   res.json({success: true})
+                })
+            })
+            
+        } else {
+            res.json({success: false})
         }
-    })
-    .then(newPwd => {
-        console.log("newPwd!", newPwd)
-        updatePassword(newPwd, req.body.email)
-        res.json({success: true})
-    })
+    })  
     .catch(err => {
         console.log("error appeared for post req reset:", err);
         res.json({success: false})

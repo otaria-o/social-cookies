@@ -16,6 +16,8 @@ export class ResetPassword extends Component<any, ResetState> {
         this.state = { 
             step: "1",
             email: "",
+            password: "",
+            code: "",
             errorMessage: ""
           };
     }
@@ -38,7 +40,7 @@ export class ResetPassword extends Component<any, ResetState> {
                         "Content-Type": "application/json"
                     },
                     body: JSON.stringify({
-                        email: this.state.email
+                        email: this.state.email,
                     })
                 })
                 .then(res => {
@@ -47,8 +49,7 @@ export class ResetPassword extends Component<any, ResetState> {
                 })
                 .then(data => {
                     console.log("alles klar!!!", data); 
-                    // this.setState({ step: "2" });
-                    location.reload();
+                    this.setState({ step: "2" });
                 })
                 .catch(err => {
                     console.log("errore nella fetch 1!!", err)
@@ -66,23 +67,26 @@ export class ResetPassword extends Component<any, ResetState> {
                     },
                     body: JSON.stringify({
                         email: this.state.email,
-                        errorMessage: this.state.errorMessage
+                        password: this.state.password
                     })
                 })
                 .then(res => {
                     return res.json();
                 })
                 .then(data => {
-                    console.log(data); 
-                    // this.setState({ step: 2 });
-                    location.reload();
+                    console.log("ciaooooooo", data); 
+                    if (data.success) {
+                        this.setState({ step: "3" });
+                    } else {
+                        this.setState({ errorMessage: "Sorry, something went wrong, try again."});
+                    }
+                    
                 })
                 .catch(err => {
                 console.log("errore nella fetch 2!!", err)
                 // ritorna il messaggio di errore
-                this.setState({ errorMessage: "Sorry, something went wrong, try again." })
+                this.setState({ step: "2", errorMessage: "Sorry, something went wrong, try again." })
                 })
-                // this.setState({ step: 3 });
                 break;
 
                 // default:
@@ -141,7 +145,7 @@ export class ResetPassword extends Component<any, ResetState> {
             <h3>Reset the password</h3>
         </div>
         <div>
-            <p>{this.whattoRender()}</p>
+            {this.whattoRender()}
         </div>
         </div>
     }
