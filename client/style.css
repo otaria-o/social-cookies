@@ -32,6 +32,12 @@ body {
     padding: 30px;
 }
 
+/* #logopiccoletto {
+    width: 200px;
+    height: 150px;
+    justify-self: left;
+} */
+
 .error {
     color: red;
 }

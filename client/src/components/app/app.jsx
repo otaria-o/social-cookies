@@ -1,5 +1,6 @@
 import { Component } from "react";
 import { Logo } from "../logo/logo"
+import { ProfilePic } from "../profilepic/profilepic"
 
 export class App extends Component {
     constructor(props) {
@@ -10,9 +11,8 @@ export class App extends Component {
 
     render() {
         return <div>
-            <div>
                 <Logo /> 
-            </div>
+                <ProfilePic />
                 </div>
     }
 }

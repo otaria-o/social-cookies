@@ -55,7 +55,6 @@ export class Login extends Component<any, RegistrationState>{
     }
 
     render() {
-        // console.log("state:", this.state);
         return <div className="welcome">
             <div>
                 <Logo />
