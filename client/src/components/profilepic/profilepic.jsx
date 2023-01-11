@@ -15,32 +15,33 @@ export class ProfilePic extends Component {
         this.setState({showUploader: true})  
     }
 
-    logout = () => {
-        fetch("/logout", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-        })
-        .then(res => {
-            return res.json();
-        })
-        .then(data => {
-            console.log("data from logout", data)  
-            // this.setState({})  
-        })
-        .catch(err => {
-            console.log("errore nella fetch!!", err)
-        })
-    }
+    // logout = () => {
+    //     fetch("/logout", {
+    //         method: "POST",
+    //         headers: {
+    //             "Content-Type": "application/json"
+    //         },
+    //     })
+    //     .then(res => {
+    //         return res.json();
+    //     })
+    //     .then(data => {
+    //         console.log("data from logout", data)  
+    //         this.setState({})  
+    //         return <Welcome />
+    //     })
+    //     .catch(err => {
+    //         console.log("errore nella fetch!!", err)
+    //     })
+    // }
 
     
 
     render() {
-        return <div>
-            <img onClick={this.showUploader} src={this.state.pic} alt={this.username} />
-            {this.state.showUploader && <Uploader showUploader={this.state.showUploader} handleSubmit={this.handleSubmit} pic={this.state.pic} handleButton={this.handleButton}/>}
-            <button onClick={this.logout}>Log out</button>
+        return <div id="divpict">
+            <img id="pict" onClick={this.showUploader} src={this.state.pic} alt={this.username} />
+            {this.state.showUploader && <Uploader showUploader={this.state.showUploader} handleSubmit={this.handleSubmit} pic={this.state.pic} handleButton={this.handleButton} onChange={this.handleChangeFile}/>}
+            {/* <button onClick={this.logout}>Log out</button> */}
         </div>
     }
 }

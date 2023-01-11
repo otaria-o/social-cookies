@@ -15,7 +15,7 @@ app.use(cookieSession( {
 }));
 
 // connecting files
-const { addUser, checkEmail, insertCode, selectCode, updatePassword, updateImg } = require("./sql/db.js")
+const { addUser, checkEmail, insertCode, selectCode, updatePassword, updateImg, getAllInfo } = require("./sql/db.js")
 const crypt = require("../bcrypt.js")
 const { uploader, fileUpload } = require("./uploads/upload.js")
 
@@ -130,7 +130,7 @@ app.post("/upload", uploader.single("pic"), fileUpload, (req, res) => {
         updateImg(url, req.session.userId)
         .then(data => {
             console.log(data)
-            res.json(data)        
+            res.json()        
         }) 
         .catch(err => {
             console.log("error appeared for POST IMG :ID req:", err);
@@ -138,23 +138,25 @@ app.post("/upload", uploader.single("pic"), fileUpload, (req, res) => {
     } 
 });
 
-app.post("/logout", (req,res) => {
-    req.session.userId = null
-    console.log("sei stato laggato fuori")
-    res.json()
-});
+// app.post("/logout", (req,res) => {
+//     req.session.userId = null
+//     console.log("sei stato laggato fuori")
+//     res.json()
+// });
 
 // GET
+
+app.get("/user/:id.json", function (req, res) {
+    const userId = req.session.userId
+    getAllInfo(userId)
+    .then(info => {
+        res.json(info)
+    })
+}); 
+
 app.get("*", function (req, res) {
     res.sendFile(path.join(__dirname, "..", "client", "index.html"));
 });
-
-// app.get('/user/id.json', function (req, res) {
-//     res.json({
-//         userId: req.session.userId
-//     });
-// }); 
-
 
 
 app.listen(PORT, function () {

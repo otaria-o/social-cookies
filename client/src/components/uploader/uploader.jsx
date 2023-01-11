@@ -9,8 +9,7 @@ export class Uploader extends Component {
     }
 
     componentDidMount() {
-        console.log("uploader mounted!");
-        console.log(req.session.userId)
+        console.log("uploader mounted!")
     }
 
     handleFileChange(evt) {
@@ -23,7 +22,7 @@ export class Uploader extends Component {
         evt.preventDefault();
         console.log("Button clicked with event:", evt);
         const formData = new FormData();
-        formData.append("pic", this.pic);
+        formData.append("pic", evt.target.value);
 
         fetch("/upload", {
             method: "POST",

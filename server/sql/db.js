@@ -35,5 +35,10 @@ exports.updateImg = function(image, id) {
     return db.query(`UPDATE users SET image = $1 where id = $2;`, [image, id])
 }
 
+// get all the info from users table
+exports.getAllInfo = function(userId) {
+    return db.query(`SELECT * FROM users WHERE id = $1;`, [userId])
+}
+
 
 
