@@ -30,4 +30,10 @@ exports.updatePassword = function(password, email) {
     return db.query(`UPDATE users SET password = $1 where email = $2;`, [password, email])
 }
 
+// update image
+exports.updateImg = function(image, id) {
+    return db.query(`UPDATE users SET image = $1 where id = $2;`, [image, id])
+}
+
+
 

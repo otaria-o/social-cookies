@@ -15,8 +15,9 @@ app.use(cookieSession( {
 }));
 
 // connecting files
-const { addUser, checkEmail, insertCode, selectCode, updatePassword } = require("./sql/db.js")
+const { addUser, checkEmail, insertCode, selectCode, updatePassword, updateImg } = require("./sql/db.js")
 const crypt = require("../bcrypt.js")
+const { uploader, fileUpload } = require("./uploads/upload.js")
 
 app.use((req, res, next) => {
     console.log("---------------------");
@@ -27,6 +28,8 @@ app.use((req, res, next) => {
     console.log("---------------------");
     next();
 });
+
+
 
 // POST
 app.post("/register", (req, res) => {
@@ -119,10 +122,40 @@ app.post("/reset/pwd", (req, res) => {
     })
 });
 
+app.post("/upload", uploader.single("pic"), fileUpload, (req, res) => {
+    console.log("uploading!", "req.body:", req.body)
+    // If nothing went wrong the file is already in the uploads directory
+    if (req.file) {
+        const url = res.locals.fileUrl;
+        updateImg(url, req.session.userId)
+        .then(data => {
+            console.log(data)
+            res.json(data)        
+        }) 
+        .catch(err => {
+            console.log("error appeared for POST IMG :ID req:", err);
+        })         
+    } 
+});
+
+app.post("/logout", (req,res) => {
+    req.session.userId = null
+    console.log("sei stato laggato fuori")
+    res.json()
+});
+
 // GET
 app.get("*", function (req, res) {
     res.sendFile(path.join(__dirname, "..", "client", "index.html"));
 });
+
+// app.get('/user/id.json', function (req, res) {
+//     res.json({
+//         userId: req.session.userId
+//     });
+// }); 
+
+
 
 app.listen(PORT, function () {
     console.log(`Express server listening on port ${PORT}`);

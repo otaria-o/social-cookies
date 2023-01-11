@@ -5,17 +5,42 @@ export class ProfilePic extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            showUploader: false
+            showUploader: false,
+            // pic by martina_bulkova from pixaby
+            pic: "profile.jpg" 
         };
     }
-    showUPloader = () => {
+    
+    showUploader = () => {
         this.setState({showUploader: true})  
-        }
+    }
+
+    logout = () => {
+        fetch("/logout", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+        })
+        .then(res => {
+            return res.json();
+        })
+        .then(data => {
+            console.log("data from logout", data)  
+            // this.setState({})  
+        })
+        .catch(err => {
+            console.log("errore nella fetch!!", err)
+        })
+    }
+
+    
 
     render() {
         return <div>
-            <p onClick={this.showUploader}>bla bla sono molto stanca</p>
-            <Uploader />
+            <img onClick={this.showUploader} src={this.state.pic} alt={this.username} />
+            {this.state.showUploader && <Uploader showUploader={this.state.showUploader} handleSubmit={this.handleSubmit} pic={this.state.pic} handleButton={this.handleButton}/>}
+            <button onClick={this.logout}>Log out</button>
         </div>
     }
 }
