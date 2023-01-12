@@ -1,16 +1,18 @@
-// import { ChangeEvent, Component, FormEvent } from "react";
+import { ChangeEvent, Component, FormEvent } from "react";
 
 export class Bio extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            bio: "",
-            showBio: false,
             errorMessage: ""
         }
+        this.handleBioChange = this.handleBioChange.bind(this)
     }
+
     handleBioChange = (evt) => {
-        this.setState({bio: evt.target.value})
+        console.log("change")
+        let newBio = evt.target.value
+        this.props.changeBio({bio: newBio})
     }
 
     handleBioSubmit = (evt) => {
@@ -31,6 +33,9 @@ export class Bio extends Component {
         })
         .then(data => {
             console.log(data); 
+            let newBio
+            this.props.changeBio(newBio)
+            this.props.toggleBioEdit()
         })
         .catch(err => {
             console.log("errore nella fetch!!", err)
@@ -42,9 +47,9 @@ export class Bio extends Component {
     render() {
         return <div>
             <p>Write here your bio</p>
-            <form onSubmit={handleBioSubmit}>
-                <textarea name="bio" type="text" onChange={this.handleBioChange}/>
-                <button>Submit</button>
+            <form onSubmit={(e) => this.handleBioSubmit(e)}>
+                <textarea name="bio" type="text" value={this.props.bio} onChange={this.handleBioChange}/>
+                <button>Save</button>
             </form>
         </div>
     }

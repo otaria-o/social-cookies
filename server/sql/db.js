@@ -40,5 +40,10 @@ exports.getAllInfo = function(userId) {
     return db.query(`SELECT * FROM users WHERE id = $1;`, [userId])
 }
 
+// insert bio
+exports.updateBio = function(bio, userId) {
+    return db.query(`UPDATE users SET bio = $1 WHERE id = $2 RETURNING *;`, [bio, userId])
+}
+
 
 

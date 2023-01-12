@@ -6,8 +6,6 @@ export class ProfilePic extends Component {
         super(props);
         this.state = {
             showUploader: false,
-            // pic by martina_bulkova from pixaby
-            // pic: "profile.jpg" 
         };
     }
     

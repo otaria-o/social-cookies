@@ -15,7 +15,7 @@ app.use(cookieSession( {
 }));
 
 // connecting files
-const { addUser, checkEmail, insertCode, selectCode, updatePassword, updateImg, getAllInfo } = require("./sql/db.js")
+const { addUser, checkEmail, insertCode, selectCode, updatePassword, updateImg, updateBio, getAllInfo } = require("./sql/db.js")
 const crypt = require("../bcrypt.js")
 const { uploader, fileUpload } = require("./uploads/upload.js")
 
@@ -136,6 +136,20 @@ app.post("/upload", uploader.single("pic"), fileUpload, (req, res) => {
             console.log("error appeared for POST IMG:", err);
         })         
     } 
+});
+
+app.post("/bio", (req, res) => {
+    updateBio(req.body.bio, userId)
+    .then(data => {
+        console.log(data)
+        // restituire i dati giusti per aggiornare la bio
+        res.json()
+    
+    })
+    .catch(err => {
+        console.log("error appeared for post req BIO:", err);
+        res.json({success: false})
+    })
 });
 
 // app.post("/logout", (req,res) => {

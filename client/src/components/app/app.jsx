@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router';
 import { Logo } from "../logo/logo";
 import { ProfilePic } from "../profilepic/profilepic";
 import { Profile } from "../profile/profile";
+import { Bio } from "../bio/bio"
 
 export class App extends Component {
     constructor(props) {
@@ -12,7 +13,9 @@ export class App extends Component {
             lastname: "",
             email: "",
             password: "",
+            // pic by martina_bulkova from pixaby
             image: "profile.jpg",
+            bio: null,
             errorMessage: ""
         }; 
     }
@@ -40,6 +43,10 @@ export class App extends Component {
         this.setState({image : newPic})
     }
 
+    changeBio = (newBio) => {
+        this.setState({bio: newBio})
+    }
+
     // logout = () => {
     //     fetch("/logout", {
     //         method: "POST",
@@ -64,11 +71,12 @@ export class App extends Component {
         return <section className="profpic">
             <header>
                 <Logo /> 
-                <ProfilePic first={this.firstname} last={this.lastname} pic={this.state.image} changePic={this.changePic}/>
+                <ProfilePic pic={this.state.image} changePic={this.changePic}/>
             </header>
             
             <main>
                 {/* Here is the main page, profile,search friend.... */}
+                <Profile first={this.firstname} last={this.lastname} changeBio={this.changeBio} ProfilePic= {<ProfilePic pic={this.state.image} changePic={this.changePic}/>}/>
             </main>
         </section>
     }
