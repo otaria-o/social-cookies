@@ -7,40 +7,23 @@ export class ProfilePic extends Component {
         this.state = {
             showUploader: false,
             // pic by martina_bulkova from pixaby
-            pic: "profile.jpg" 
+            // pic: "profile.jpg" 
         };
     }
     
-    showUploader = () => {
-        this.setState({showUploader: true})  
+    toggleUploader = () => {
+        console.log('I am toggling');
+        this.setState({showUploader: !this.state.showUploader})  
     }
-
-    // logout = () => {
-    //     fetch("/logout", {
-    //         method: "POST",
-    //         headers: {
-    //             "Content-Type": "application/json"
-    //         },
-    //     })
-    //     .then(res => {
-    //         return res.json();
-    //     })
-    //     .then(data => {
-    //         console.log("data from logout", data)  
-    //         this.setState({})  
-    //         return <Welcome />
-    //     })
-    //     .catch(err => {
-    //         console.log("errore nella fetch!!", err)
-    //     })
-    // }
-
-    
 
     render() {
         return <div id="divpict">
-            <img id="pict" onClick={this.showUploader} src={this.state.pic} alt={this.username} />
-            {this.state.showUploader && <Uploader showUploader={this.state.showUploader} handleSubmit={this.handleSubmit} pic={this.state.pic} handleButton={this.handleButton} onChange={this.handleChangeFile}/>}
+            <img id="pict" onClick={this.toggleUploader} src={this.props.pic} alt={this.username} />
+            {this.state.showUploader && 
+            <Uploader 
+            toggleUploader = {this.toggleUploader}
+            changePic={this.props.changePic}
+           />}
             {/* <button onClick={this.logout}>Log out</button> */}
         </div>
     }

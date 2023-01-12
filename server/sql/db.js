@@ -32,7 +32,7 @@ exports.updatePassword = function(password, email) {
 
 // update image
 exports.updateImg = function(image, id) {
-    return db.query(`UPDATE users SET image = $1 where id = $2;`, [image, id])
+    return db.query(`UPDATE users SET image = $1 where id = $2 RETURNING *;`, [image, id])
 }
 
 // get all the info from users table

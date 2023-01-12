@@ -1,4 +1,5 @@
 import { Component } from "react";
+import { useNavigate } from 'react-router';
 import { Logo } from "../logo/logo";
 import { ProfilePic } from "../profilepic/profilepic";
 import { Profile } from "../profile/profile";
@@ -11,45 +12,64 @@ export class App extends Component {
             lastname: "",
             email: "",
             password: "",
-            image: "",
+            image: "profile.jpg",
             errorMessage: ""
         }; 
     }
 
     componentDidMount() {
         console.log("App mounted");
-        // fetch informartion from the server
-        fetch("/user/:id.json", {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                firstname: this.state.firstname,
-                lastname: this.state.lastname,
-                email: this.state.email,
-                password: this.state.password,
-                errorMessage: this.state.errorMessage
-            })
-        })
-        .then(res => {
-            return res.json();
-        })
+        // fetch information from the server
+    //     fetch("/")
+    //     .then(res => {
+    //         return res.json();
+    //     })
+    //     .then(data => {
+    //         this.setState({
+    //             firstname: data.rows[0].first,
+    //             // lastname: last,
+    //             // email: "",
+    //             // password: "",
+    //             image: data.rows[0].image
+    //         })
+    //         console.log(this.state)
+    //     })
     }
 
-    changePic = () => {
-        this.setState({})
+    changePic = (newPic) => {
+        this.setState({image : newPic})
     }
+
+    // logout = () => {
+    //     fetch("/logout", {
+    //         method: "POST",
+    //         headers: {
+    //             "Content-Type": "application/json"
+    //         },
+    //     })
+    //     .then(res => {
+    //         return res.json();
+    //     })
+    //     .then(data => {
+    //         console.log("data from logout", data)  
+    //         let navigate = use navigate()  
+    //         navigate("/")
+    //     })
+    //     .catch(err => {
+    //         console.log("errore nella fetch!!", err)
+    //     })
+    // }
 
     render() {
-        return <div className="profpic">
-            <div id="logopiccolo">
+        return <section className="profpic">
+            <header>
                 <Logo /> 
-            </div>
-            <div>
                 <ProfilePic first={this.firstname} last={this.lastname} pic={this.state.image} changePic={this.changePic}/>
-                {/* <Profile username={this.username} /> */}
-            </div>
-            </div>
+            </header>
+            
+            <main>
+                {/* Here is the main page, profile,search friend.... */}
+            </main>
+        </section>
     }
 }

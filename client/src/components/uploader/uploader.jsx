@@ -5,7 +5,10 @@ export class Uploader extends Component {
         console.log(props);
         super(props);
         this.state = {
+            pic: undefined
         };
+        this.handleSubmit = this.handleSubmit.bind(this)
+        this.handleFileChange = this.handleFileChange.bind(this)   
     }
 
     componentDidMount() {
@@ -14,15 +17,15 @@ export class Uploader extends Component {
 
     handleFileChange(evt) {
         console.log(evt)
-        console.log("la foto che ho scelto", evt.target.value)
-        this.pic = evt.target.value;
+        console.log("la foto che ho scelto fileChange", evt.target.value)
+        this.setState({pic : evt.target.files[0]});
     }
 
     handleSubmit = (evt) => {
         evt.preventDefault();
         console.log("Button clicked with event:", evt);
         const formData = new FormData();
-        formData.append("pic", evt.target.value);
+        formData.append("pic", this.state.pic);
 
         fetch("/upload", {
             method: "POST",
@@ -32,8 +35,9 @@ export class Uploader extends Component {
             return res.json();
         })
         .then(data => {
-            console.log("data from handleSubmit", data)  
-            this.setState({})  
+            console.log("data from handleSubmit", data) 
+            let newPic = data.rows[0].image
+            this.props.changePic(newPic)
         })
         .catch(err => {
             console.log("errore nella fetch!!", err)
@@ -43,20 +47,19 @@ export class Uploader extends Component {
     }           
 
     handleButton = () => {
-        this.setState({showUploader: false})
+        console.log("Click on close");
+        this.props.toggleUploader();
     }
 
     render() {
-        return <div>
-            <form onSubmit={() => this.handleSubmit()}>
-            <div>
+        return <section className="uploader">
+            <form onSubmit={(e) => this.handleSubmit(e)}>
                 <p>Want to change your image?</p>
-                    <span>Choose a file</span>
-                    <input type="file" name="pic" accept="image/*" onChange={this.handleFileChange} />
-                </div>
+                <span>Choose a file</span>
+                <input type="file" name="pic" accept="image/*" onChange={this.handleFileChange} />
                 <button>Upload</button>
             </form> 
             <button onClick={this.handleButton}>X</button>
-        </div>
+        </section>
     }
 }

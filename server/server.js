@@ -129,11 +129,11 @@ app.post("/upload", uploader.single("pic"), fileUpload, (req, res) => {
         const url = res.locals.fileUrl;
         updateImg(url, req.session.userId)
         .then(data => {
-            console.log(data)
-            res.json()        
+            console.log("devo estrarre il link della foto", data.rows)
+            res.json(data)        
         }) 
         .catch(err => {
-            console.log("error appeared for POST IMG :ID req:", err);
+            console.log("error appeared for POST IMG:", err);
         })         
     } 
 });
@@ -146,13 +146,20 @@ app.post("/upload", uploader.single("pic"), fileUpload, (req, res) => {
 
 // GET
 
-app.get("/user/:id.json", function (req, res) {
-    const userId = req.session.userId
-    getAllInfo(userId)
-    .then(info => {
-        res.json(info)
-    })
-}); 
+app.get("/user/id.json", function (req, res) {
+    res.json({
+        userId: req.session.userId
+    });
+});
+
+// app.get("/", (req, res) => {
+//     getAllInfo(req.session.userId)
+//     .then(data => {
+//         console.log(data.rows[0])
+//         res.json()
+//     })
+
+// })
 
 app.get("*", function (req, res) {
     res.sendFile(path.join(__dirname, "..", "client", "index.html"));
