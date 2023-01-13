@@ -33,8 +33,6 @@ app.use((req, res, next) => {
 
 // POST
 app.post("/register", (req, res) => {
-    // console.log("password di registrazione", req.body.password)
-    //  hash the password before saving to the Database
     // add check in order to not to have empty input
     crypt.hash(req.body.password)
     .then(hashedPsw => {
@@ -143,7 +141,6 @@ app.post("/bio", (req, res) => {
     updateBio(req.body.bio, req.session.userId)
     .then(data => {
         console.log("data dal server", data)
-        // restituire i dati giusti per aggiornare la bio
         res.json(data.rows[0].bio)
     
     })
@@ -153,11 +150,11 @@ app.post("/bio", (req, res) => {
     })
 });
 
-// app.post("/logout", (req,res) => {
-//     req.session.userId = null
-//     console.log("sei stato laggato fuori")
-//     res.json()
-// });
+app.post("/logout", (req,res) => {
+    req.session.userId = null
+    console.log("sei stato loggato fuori")
+    res.json({success: true})
+});
 
 // GET
 
@@ -167,14 +164,14 @@ app.get("/user/id.json", function (req, res) {
     });
 });
 
-// app.get("/", (req, res) => {
-//     getAllInfo(req.session.userId)
-//     .then(data => {
-//         console.log(data.rows[0])
-//         res.json()
-//     })
+app.get("/user", (req, res) => {
+    getAllInfo(req.session.userId)
+    .then(data => {
+        console.log("getAllInfo", data.rows[0])
+        res.json(data.rows[0])
+    })
 
-// })
+})
 
 app.get("*", function (req, res) {
     res.sendFile(path.join(__dirname, "..", "client", "index.html"));

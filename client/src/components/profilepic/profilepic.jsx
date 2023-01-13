@@ -18,11 +18,8 @@ export class ProfilePic extends Component {
         return <div id="divpict">
             <img id="pict" onClick={this.toggleUploader} src={this.props.pic} alt={this.username} />
             {this.state.showUploader && 
-            <Uploader 
-            toggleUploader = {this.toggleUploader}
-            changePic={this.props.changePic}
+            <Uploader toggleUploader = {this.toggleUploader} changePic={this.props.changePic}
            />}
-            {/* <button onClick={this.logout}>Log out</button> */}
         </div>
     }
 }

@@ -20,7 +20,6 @@ export function Welcome() {
             </BrowserRouter>
         </div>
         </div>
- 
 }
 
 

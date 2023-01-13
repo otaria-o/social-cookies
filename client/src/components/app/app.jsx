@@ -1,9 +1,9 @@
 import { Component } from "react";
-import { useNavigate } from 'react-router';
+import { navigate } from 'react-router';
 import { Logo } from "../logo/logo";
 import { ProfilePic } from "../profilepic/profilepic";
 import { Profile } from "../profile/profile";
-import { Bio } from "../bio/bio"
+import { Welcome } from "../welcome/welcome"
 
 export class App extends Component {
     constructor(props) {
@@ -24,21 +24,19 @@ export class App extends Component {
     componentDidMount() {
         console.log("App mounted");
         // fetch information from the server
-    //     fetch("/")
-    //     .then(res => {
-    //         return res.json();
-    //     })
-    //     .then(data => {
-    //         this.setState({
-    //             firstname: data.rows[0].first,
-    //             // lastname: last,
-    //             // email: "",
-    //             // password: "",
-    //             image: data.rows[0].image
-                    // bio:
-    //         })
-    //         console.log(this.state)
-    //     })
+        fetch("/user")
+        .then(res => {
+            return res.json();
+        })
+        .then(data => {
+            console.log("sono qui", data)
+            this.setState({
+                firstname: data.first,
+                lastname: data.last,
+                image: data.image,
+                bio: data.bio,
+            }) 
+        })
     }
 
     changePic = (newPic) => {
@@ -49,25 +47,26 @@ export class App extends Component {
         this.setState({bio: newBio})
     }
 
-    // logout = () => {
-    //     fetch("/logout", {
-    //         method: "POST",
-    //         headers: {
-    //             "Content-Type": "application/json"
-    //         },
-    //     })
-    //     .then(res => {
-    //         return res.json();
-    //     })
-    //     .then(data => {
-    //         console.log("data from logout", data)  
-    //         let navigate = use navigate()  
-    //         navigate("/")
-    //     })
-    //     .catch(err => {
-    //         console.log("errore nella fetch!!", err)
-    //     })
-    // }
+    logout = () => {
+        fetch("/logout", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+        })
+        .then(res => {
+            return res.json();
+            })
+        .then(data => {
+            console.log("data from logout", data)  
+            if ({success: true}) {
+                location.replace("/")
+            }
+        })
+        .catch(err => {
+            console.log("errore nella fetch!!", err)
+        })
+    }
 
     render() {
         return <section className="profpic">
@@ -77,8 +76,9 @@ export class App extends Component {
             </header>
             
             <main>
-                <Profile first={this.firstname} last={this.lastname} bio={this.bio} changeBio={this.changeBio} pic={this.state.image} changePic={this.changePic}/>
+                <Profile first={this.state.firstname} last={this.state.lastname} bio={this.state.bio} changeBio={this.changeBio} pic={this.state.image} changePic={this.changePic}/>
             </main>
+            <button onClick={this.logout}>Log out</button>
         </section>
     }
 }
