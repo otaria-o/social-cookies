@@ -49,7 +49,6 @@ export class Registration extends Component {
         })
         .catch(err => {
             console.log("errore nella fetch!!", err)
-            // ritorna il messaggio di errore
             this.setState({ errorMessage: "Sorry, something went wrong. Fill up all the fields, please." })
         })
     }

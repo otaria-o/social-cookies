@@ -139,11 +139,12 @@ app.post("/upload", uploader.single("pic"), fileUpload, (req, res) => {
 });
 
 app.post("/bio", (req, res) => {
-    updateBio(req.body.bio, userId)
+    console.log("corpo di mille balene", req.body)
+    updateBio(req.body.bio, req.session.userId)
     .then(data => {
-        console.log(data)
+        console.log("data dal server", data)
         // restituire i dati giusti per aggiornare la bio
-        res.json()
+        res.json(data.rows[0].bio)
     
     })
     .catch(err => {

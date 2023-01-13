@@ -7,29 +7,26 @@ export class Profile extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            bio: "",
             showBioEdit: false
         }
-    }
-    // changeBio = (newBio) => {
-    //     this.setState({bio: newBio})
-    // }
+    } 
 
     toggleBioEdit = () => {
         console.log('I am toggling');
+        console.log("props", this.props)
         this.setState({showBioEdit: !this.state.showBioEdit})  
     }
 
     render() {
         return <div>
-            <ProfilePic />
+            <ProfilePic pic={this.props.pic} changePic={this.changePic} />
             <h2>{this.props.first} {this.props.last}</h2>
-            <p>{this.state.bio}</p>
+            <p>{this.props.bio}</p>
             <br />
-            {this.state.bio.length===0 && 
+            {this.props.bio === null && 
             <button onClick={this.toggleBioEdit}>Add a bio</button>}
-            {this.state.bio.length>0 && <button onClick={this.toggleBioEdit}>Edit</button>}
-            {this.state.showBioEdit && <Bio bio={this.state.bio} toggleBioEdit={this.toggleBioEdit} changeBio={this.changeBio} />}
+            {this.props.bio !== null && <button onClick={this.toggleBioEdit}>Edit</button>}
+            {this.state.showBioEdit && <Bio bio={this.props.bio} toggleBioEdit={this.toggleBioEdit} changeBio={this.props.changeBio} />}
         </div>
     }
 }

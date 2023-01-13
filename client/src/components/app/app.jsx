@@ -18,6 +18,7 @@ export class App extends Component {
             bio: null,
             errorMessage: ""
         }; 
+        this.changeBio = this.changeBio.bind(this)
     }
 
     componentDidMount() {
@@ -34,6 +35,7 @@ export class App extends Component {
     //             // email: "",
     //             // password: "",
     //             image: data.rows[0].image
+                    // bio:
     //         })
     //         console.log(this.state)
     //     })
@@ -75,8 +77,7 @@ export class App extends Component {
             </header>
             
             <main>
-                {/* Here is the main page, profile,search friend.... */}
-                <Profile first={this.firstname} last={this.lastname} changeBio={this.changeBio} ProfilePic= {<ProfilePic pic={this.state.image} changePic={this.changePic}/>}/>
+                <Profile first={this.firstname} last={this.lastname} bio={this.bio} changeBio={this.changeBio} pic={this.state.image} changePic={this.changePic}/>
             </main>
         </section>
     }
