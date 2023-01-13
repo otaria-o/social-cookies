@@ -68,8 +68,8 @@ export class App extends Component {
     }
 
     render() {
-        return <section className="profpic">
-            <header>
+        return <section>
+            <header className="profpic">
                 <Logo /> 
                 <ProfilePic pic={this.state.image} changePic={this.changePic}/>
             </header>

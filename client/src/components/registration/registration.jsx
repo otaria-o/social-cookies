@@ -55,13 +55,13 @@ export class Registration extends Component {
 
     render() {
         return <div className="welcome">
-            <div>
+            <div className="logo">
                 <Logo />
             </div>
             <div>
                 <h1>WELCOME</h1>
             </div><br />
-            <form className="registrationorlogin" onSubmit={this.handleSubmit}>
+            <form className="registrationorloginorreset" onSubmit={this.handleSubmit}>
                 <div>
                     <span>Firstname</span>
                     <br />

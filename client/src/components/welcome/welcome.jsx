@@ -12,7 +12,7 @@ export function Welcome() {
             <BrowserRouter>
                 <Routes>
                     <Route path="/user/me" element={<App />}></Route>
-                    <Route path="/users" element={<FindPeople />}></Route>
+                    {/* <Route path="/users" element={<FindPeople />}></Route> */}
                     <Route path="/reset/pwd" element={<ResetPassword />}></Route>
                     <Route path="/reset" element={<ResetPassword />}></Route>
                     <Route path="/login" element={<Login />}></Route>

@@ -2,13 +2,22 @@ import {useState, useEffect} from 'react';
 
 export function FindPeople ({first, last}) {
     console.log(first, last)
-    return (
-        <p>Find people</p>
+
+    const [ find, setFind ] = useState("")
+
+    useEffect(() => {
+        fetch("/users")
+        .then(res => res.json())
+        .then(data => 
+            console.log(data))
+    }, [])
+
+    return ( <div>
+            <h2>Find people</h2>
+            <p>Are you looking for someone?</p>
+            <input name="find" type="text" onChange={(evt) => setFind(evt.target.value)} />
+        </div>
     )
 
 
-
-
 }
-
-// export default FindPeople;

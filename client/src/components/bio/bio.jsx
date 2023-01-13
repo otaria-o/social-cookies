@@ -46,7 +46,7 @@ export class Bio extends Component {
     render() {
         return <div>
             <form onSubmit={(evt) => this.handleBioSubmit(evt)}>
-                <textarea name="bio" type="text" onChange={(evt) => this.handleBioChange(evt)}/>
+                <textarea name="bio" type="text" onChange={(evt) => this.handleBioChange(evt)} />
                 <button>Save</button>
             </form>
         </div>

@@ -92,7 +92,7 @@ export class ResetPassword extends Component {
         switch (this.state.step) {
             case "1":
                 return <div>
-                    <form onSubmit={this.handleSubmit}>
+                    <form className="registrationorloginorreset" onSubmit={this.handleSubmit}>
                         <span>Enter the email address with which you registered</span>
                         <br />
                         <input required name="email" type="email" onChange={this.handleInputChange} />
@@ -134,8 +134,8 @@ export class ResetPassword extends Component {
     }
     
     render() {
-        return <div>
-        <div>
+        return <div className="welcome">
+        <div className="logo">
             <Logo />
         </div>
         <div>

@@ -49,13 +49,13 @@ export class Login extends Component {
 
     render() {
         return <div className="welcome">
-            <div>
+            <div className="logo">
                 <Logo />
             </div>
             <div>
                 <h2>Happy to see you again</h2>
             </div><br />
-            <form className="registrationorlogin" onSubmit={this.handleSubmit}>
+            <form className="registrationorloginorreset" onSubmit={this.handleSubmit}>
                 <div>
                     <span>Email</span>
                     <br />

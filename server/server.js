@@ -170,8 +170,12 @@ app.get("/user", (req, res) => {
         console.log("getAllInfo", data.rows[0])
         res.json(data.rows[0])
     })
-
 })
+
+// app.get("/users", (req, res) => {
+//     getFour()
+// }
+// )
 
 app.get("*", function (req, res) {
     res.sendFile(path.join(__dirname, "..", "client", "index.html"));
