@@ -141,7 +141,7 @@ app.post("/bio", (req, res) => {
     updateBio(req.body.bio, req.session.userId)
     .then(data => {
         console.log("data dal server", data)
-        res.json(data.rows[0].bio)
+        res.json(data.rows[0])
     
     })
     .catch(err => {

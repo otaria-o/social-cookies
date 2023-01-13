@@ -25,7 +25,7 @@ export class Profile extends Component {
             <br />
             {this.props.bio === null && 
             <button onClick={this.toggleBioEdit}>Add a bio</button>}
-            {this.props.bio !== null && <button onClick={this.toggleBioEdit}>Edit</button>}
+            {this.props.bio !== null && <button onClick={this.toggleBioEdit}>Edit your bio</button>}
             {this.state.showBioEdit && <Bio bio={this.props.bio} toggleBioEdit={this.toggleBioEdit} changeBio={this.props.changeBio} />}
         </div>
     }

@@ -8,6 +8,7 @@ export class Bio extends Component {
             newBio: ""
         }
         this.handleBioChange = this.handleBioChange.bind(this)
+        // this.handleBioSubmit = this.handleBioSubmit(this)
     }
 
     handleBioChange = (evt) => {
@@ -33,7 +34,7 @@ export class Bio extends Component {
         })
         .then(data => {
             console.log("dati dal bio component", data); 
-            this.props.changeBio(this.newBio)
+            this.props.changeBio(data.bio)
             this.props.toggleBioEdit()
         })
         .catch(err => {
@@ -44,7 +45,7 @@ export class Bio extends Component {
 
     render() {
         return <div>
-            <form onSubmit={(e) => this.handleBioSubmit(e)}>
+            <form onSubmit={(evt) => this.handleBioSubmit(evt)}>
                 <textarea name="bio" type="text" onChange={(evt) => this.handleBioChange(evt)}/>
                 <button>Save</button>
             </form>

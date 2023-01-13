@@ -1,9 +1,7 @@
 import { Component } from "react";
-import { navigate } from 'react-router';
 import { Logo } from "../logo/logo";
 import { ProfilePic } from "../profilepic/profilepic";
 import { Profile } from "../profile/profile";
-import { Welcome } from "../welcome/welcome"
 
 export class App extends Component {
     constructor(props) {
