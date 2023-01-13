@@ -38,7 +38,7 @@ export class Login extends Component {
         })
         .then(data => {
             console.log(data); 
-            location.reload()
+            location.assign("/")
         })
         .catch(err => {
             console.log("errore nella fetch!!", err)

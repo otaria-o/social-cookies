@@ -2,6 +2,7 @@ import { Component } from "react";
 import { Logo } from "../logo/logo";
 import { ProfilePic } from "../profilepic/profilepic";
 import { Profile } from "../profile/profile";
+import { FindPeople } from "../findpeople/findpeople";
 
 export class App extends Component {
     constructor(props) {
@@ -75,6 +76,7 @@ export class App extends Component {
             
             <main>
                 <Profile first={this.state.firstname} last={this.state.lastname} bio={this.state.bio} changeBio={this.changeBio} pic={this.state.image} changePic={this.changePic}/>
+                <FindPeople />
             </main>
             <button onClick={this.logout}>Log out</button>
         </section>
