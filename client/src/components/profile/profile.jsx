@@ -21,12 +21,14 @@ export class Profile extends Component {
         return <div>
             <ProfilePic pic={this.props.pic} changePic={this.changePic} />
             <h2>{this.props.first} {this.props.last}</h2>
-            <p>{this.props.bio}</p>
             <br />
+            <p>{this.props.bio}</p>
             {this.props.bio === null && 
             <button onClick={this.toggleBioEdit}>Add a bio</button>}
-            {this.props.bio !== null && <button onClick={this.toggleBioEdit}>Edit your bio</button>}
-            {this.state.showBioEdit && <Bio bio={this.props.bio} toggleBioEdit={this.toggleBioEdit} changeBio={this.props.changeBio} />}
+            {this.props.bio !== null && 
+            <button onClick={this.toggleBioEdit}>Edit your bio</button>}
+            {this.state.showBioEdit && 
+            <Bio bio={this.props.bio} toggleBioEdit={this.toggleBioEdit} changeBio={this.props.changeBio} />}
         </div>
     }
 }

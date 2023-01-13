@@ -55,11 +55,13 @@ export class Uploader extends Component {
         return <section className="uploader">
             <form onSubmit={(e) => this.handleSubmit(e)}>
                 <p>Want to change your image?</p>
-                <span>Choose a file</span>
+                <br />
                 <input type="file" name="pic" accept="image/*" onChange={this.handleFileChange} />
+                <br />
                 <button>Upload</button>
             </form> 
-            <button onClick={this.handleButton}>X</button>
+            <br />
+            <button onClick={this.handleButton}>back</button>
         </section>
     }
 }

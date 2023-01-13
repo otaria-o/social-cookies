@@ -16,8 +16,7 @@ export class App extends Component {
             image: "profile.jpg",
             bio: null,
             errorMessage: ""
-        }; 
-        this.changeBio = this.changeBio.bind(this)
+        }
     }
 
     componentDidMount() {
@@ -28,7 +27,7 @@ export class App extends Component {
             return res.json();
         })
         .then(data => {
-            console.log("sono qui", data)
+            // console.log("sono qui", data)
             this.setState({
                 firstname: data.first,
                 lastname: data.last,
@@ -70,15 +69,25 @@ export class App extends Component {
     render() {
         return <section>
             <header className="profpic">
-                <Logo /> 
-                <ProfilePic pic={this.state.image} changePic={this.changePic}/>
+                <div className="logopiccolo">
+                    <Logo /> 
+                </div>
+                <div className="pic">
+                    <ProfilePic pic={this.state.image} changePic={this.changePic}/>
+                </div>  
             </header>
-            
+            <hr />
             <main>
-                <Profile first={this.state.firstname} last={this.state.lastname} bio={this.state.bio} changeBio={this.changeBio} pic={this.state.image} changePic={this.changePic}/>
-                <FindPeople />
+                <div className="profilebig">
+                    <Profile first={this.state.firstname} last={this.state.lastname} bio={this.state.bio} changeBio={this.changeBio} pic={this.state.image} changePic={this.changePic}/>
+                    <br />
+                    <button onClick={this.logout}>Log out</button>
+                </div>
+                <div className="findpeople">
+                    <FindPeople />
+                </div>
             </main>
-            <button onClick={this.logout}>Log out</button>
+            
         </section>
     }
 }

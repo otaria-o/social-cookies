@@ -7,8 +7,13 @@ export class Bio extends Component {
             errorMessage: "",
             newBio: ""
         }
-        this.handleBioChange = this.handleBioChange.bind(this)
+        // non ho bisogno del bind because the function with the evt is already in the onChange and in the onSubmit, right?
+        // this.handleBioChange = this.handleBioChange.bind(this)
         // this.handleBioSubmit = this.handleBioSubmit(this)
+    }
+
+    handleClose = (evt) => {
+        this.props.toggleBioEdit()
     }
 
     handleBioChange = (evt) => {
@@ -47,8 +52,11 @@ export class Bio extends Component {
         return <div>
             <form onSubmit={(evt) => this.handleBioSubmit(evt)}>
                 <textarea name="bio" type="text" onChange={(evt) => this.handleBioChange(evt)} />
+                <br />
                 <button>Save</button>
             </form>
+            <br />
+            <button onClick={this.handleClose}>back</button>
         </div>
     }
 }

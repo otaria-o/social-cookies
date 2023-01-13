@@ -15,11 +15,14 @@ export class ProfilePic extends Component {
     }
 
     render() {
-        return <div id="divpict">
-            <img id="pict" onClick={this.toggleUploader} src={this.props.pic} alt={this.username} />
-            {this.state.showUploader && 
-            <Uploader toggleUploader = {this.toggleUploader} changePic={this.props.changePic}
-           />}
+        return <div className="pic">
+            <div >
+                <img onClick={this.toggleUploader} src={this.props.pic} alt={this.username} />
+            </div>
+            <div>
+                {this.state.showUploader && 
+                <Uploader toggleUploader = {this.toggleUploader} changePic={this.props.changePic} />}
+            </div>
         </div>
     }
 }
