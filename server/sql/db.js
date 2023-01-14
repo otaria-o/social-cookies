@@ -47,6 +47,11 @@ exports.updateBio = function(bio, userId) {
 
 // get the last four people
 exports.getFour = function() {
-    return db.query()
+    return db.query(`SELECT * FROM users ORDER BY id DESC LIMIT 3 RETURNING *;`)
+}
+
+// search for people
+exports.getMatchingUsers = function(val) {
+    return db.query(`SELECT * FROM users WHERE first ILIKE $1 OR last ILIKE $1;`, [val + '%']);
 }
 
