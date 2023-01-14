@@ -46,12 +46,20 @@ exports.updateBio = function(bio, userId) {
 }
 
 // get the last four people
-exports.getFour = function() {
-    return db.query(`SELECT * FROM users ORDER BY id DESC LIMIT 3 RETURNING *;`)
+exports.getThree = function() {
+    return db.query(`SELECT * FROM users ORDER BY id DESC LIMIT 3;`)
 }
 
 // search for people
 exports.getMatchingUsers = function(val) {
     return db.query(`SELECT * FROM users WHERE first ILIKE $1 OR last ILIKE $1;`, [val + '%']);
 }
+
+exports.findFriendship = function(user1, user2) {
+    return db.query(`
+        SELECT * FROM friendships
+        WHERE (sender_id = $1 AND recipient_id = $2)
+        OR (sender_id = $2 AND recipient_id = $1)
+    ;`, [user1, user2]);
+};
 

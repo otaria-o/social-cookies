@@ -15,7 +15,7 @@ app.use(cookieSession( {
 }));
 
 // connecting files
-const { addUser, checkEmail, insertCode, selectCode, updatePassword, updateImg, updateBio, getAllInfo } = require("./sql/db.js")
+const { addUser, checkEmail, insertCode, selectCode, updatePassword, updateImg, updateBio, getAllInfo, getThree, getMatchingUsers, findFriendship } = require("./sql/db.js")
 const crypt = require("../bcrypt.js")
 const { uploader, fileUpload } = require("./uploads/upload.js")
 
@@ -172,10 +172,17 @@ app.get("/user", (req, res) => {
     })
 })
 
-// app.get("/users", (req, res) => {
-//     getFour()
-// }
-// )
+app.get("/users", (req, res) => {
+    getThree()
+    .then( data => {
+        console.log("gli ultimi tre utenti iscritti", data)
+        res.json(data.rows)
+    })
+    .catch(err => {
+        console.log("error appeared for POST IMG:", err)
+        res.json({success:false})
+    })  
+})
 
 app.get("*", function (req, res) {
     res.sendFile(path.join(__dirname, "..", "client", "index.html"));
