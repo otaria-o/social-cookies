@@ -93,14 +93,11 @@ button {
 .lastThree {
     display: flex;
     flex-direction: column;
-    padding: 60px;
 }
 
 .utente {
     display: flex;
     flex-direction: row;
-    width: 80%;
-    height: 200px;
     padding: 30px;
 }
 
@@ -108,8 +105,4 @@ button {
     width: 150px;
     height: 200px;
     border-radius: 50%;
-}
-
-.utente h3 {
-    align-self: center;
 }
