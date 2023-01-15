@@ -15,6 +15,7 @@ export class App extends Component {
             // pic by martina_bulkova from pixaby
             image: "profile.jpg",
             bio: null,
+            finds: [],
             errorMessage: ""
         }
     }
@@ -38,11 +39,15 @@ export class App extends Component {
     }
 
     changePic = (newPic) => {
-        this.setState({image : newPic})
+        this.setState({image: newPic})
     }
 
     changeBio = (newBio) => {
         this.setState({bio: newBio})
+    }
+
+    changeFindUsers = (newFinds) => {
+        this.setState({finds: newFinds})
     }
 
     logout = () => {
@@ -84,7 +89,7 @@ export class App extends Component {
                     <button onClick={this.logout}>Log out</button>
                 </div>
                 <div className="findpeople">
-                    <FindPeople />
+                    <FindPeople first={this.state.firstname} last={this.state.lastname} finds={this.state.finds} changeFindUsers={this.changeFindUsers}/>
                 </div>
             </main>
             

@@ -150,6 +150,17 @@ app.post("/bio", (req, res) => {
     })
 });
 
+app.post("/users", (req, res) => {
+    console.log("req?", req.body)
+    getMatchingUsers(req.body)
+    .then(data => {
+        console.log("per i findfriend che matchano", data)
+    })
+    .catch(err => {
+        console.log("error appeared for POST three last usera:", err);
+    })        
+});
+
 app.post("/logout", (req,res) => {
     req.session.userId = null
     console.log("sei stato loggato fuori")
