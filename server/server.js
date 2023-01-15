@@ -150,8 +150,13 @@ app.post("/bio", (req, res) => {
     })
 });
 
-app.post("/users", (req, res) => {
-    console.log("req?", req.body)
+app.post("/logout", (req,res) => {
+    req.session.userId = null
+    console.log("sei stato loggato fuori")
+    res.json({success: true})
+});
+
+app.post("/search", (req, res) => {
     getMatchingUsers(req.body)
     .then(data => {
         console.log("per i findfriend che matchano", data)
@@ -159,12 +164,6 @@ app.post("/users", (req, res) => {
     .catch(err => {
         console.log("error appeared for POST three last usera:", err);
     })        
-});
-
-app.post("/logout", (req,res) => {
-    req.session.userId = null
-    console.log("sei stato loggato fuori")
-    res.json({success: true})
 });
 
 // GET

@@ -6,71 +6,54 @@ export function FindPeople ({ first, finds, changeFindUsers }) {
     const [ search, setSearch] = useState("")
     const [ newFinds, setFind ] = useState([])
 
-    useEffect(() => {
-        fetch("/users")
-        .then(res => res.json())
-        .then(newFinds => {
+    const handleFinds = function(search) {
+        setSearch(search)
+        console.log("search", search)
+        if (search.trim().length > 0) {
+        
+            fetch("/search", {
+                                method: "POST",
+                                headers: {
+                                    "Content-Type": "application/json"
+                                },
+                                body: JSON.stringify(
+                                    search),
+                                    // newFinds: setFind(newFinds)
+                                })
+                            
+                .then(res => res.json())
+                .then(newFinds => {
             // changeFindUsers(newFinds)
-            setFind(newFinds)
-            console.log("dati arrivati al component", newFinds)
+                    setFind(newFinds)
+            // console.log("dati arrivati al component", newFinds)
         })
-    }, [])
+        }
+    }
 
-    // const handleFinds = function(evt) {
-    //     console.log(evt)
-    //     setSearch(evt)
-    //     fetch("/users", {
-    //         method: "POST",
-    //         headers: {
-    //             "Content-Type": "application/json"
-    //         },
-    //         body: JSON.stringify({
-                
-    //             newFinds: setFind(newFinds)
-    //             // errorMessage: this.state.errorMessage
-    //         })
-    //     })
-    //     .then(res => {
-    //         return res.json();
-    //     })
-    //     .then(data => {
-    //         console.log("dati dalla post del FindPeople component", data); 
-    //         // this.props.changeFindUsers()
-    //         setFind(data)
-    //     })
-    //     .catch(err => {
-    //         console.log("errore nella fetch!!", err)
-    //         // this.setState({ errorMessage: "Sorry, something went wrong. Fill up all the fields, please." })
-    //     })
-    // }
-
-    // const handleFinds = function(evt) {
-    //     console.log(evt)
-    //     setSearch(evt)
-        // fetch("/users", {
-        //     method: "POST",
-        //     headers: {
-        //         "Content-Type": "application/json"
-        //     },
-        //     body: JSON.stringify({
-                
-        //         newFinds: setFind(newFinds)
-        //         // errorMessage: this.state.errorMessage
-        //     })
+    useEffect(() => {
+        // if (search.trim().length === 0) {
+            fetch("/users")
+            .then(res => res.json())
+            .then(newFinds => {
+            // changeFindUsers(newFinds)
+                setFind(newFinds)
+            // console.log("dati arrivati al component", newFinds)
+        })
+        // } 
+        // else if (search.trim().length > 0) {
+        //     console.log("maggiore!")
+        //     fetch("/search")
+        //     .then(res => res.json())
+        //     .then(newFinds => {
+        //     // changeFindUsers(newFinds)
+        //         setFind(newFinds)
+        //     // console.log("dati arrivati al component", newFinds)
         // })
-        // .then(res => {
-        //     return res.json();
-        // })
-        // .then(data => {
-        //     console.log("dati dalla post del FindPeople component", data); 
-        //     // this.props.changeFindUsers()
-        //     setFind(data)
-        // })
+        // }
         // .catch(err => {
-        //     console.log("errore nella fetch!!", err)
-        //     // this.setState({ errorMessage: "Sorry, something went wrong. Fill up all the fields, please." })
+        //     console.log("errore dal find people component", err)
         // })
-    // }
+    }, [search])
 
     return ( <div>
             <h2>Find people</h2>
