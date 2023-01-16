@@ -201,8 +201,8 @@ app.get("/search", (req, res) => {
 app.get("user/:id", (req, res) => {
     getAllInfo(req.params.id)
     .then(data => {
-        console.log("data per OTHERPROFILE", data)
-        res.json(data.rows)
+        console.log("data per OTHERPROFILE", data.rows)
+        // res.json(data.rows)
     })
     .catch(err => {
         console.log("error appeared for GET otherprofile:", err);

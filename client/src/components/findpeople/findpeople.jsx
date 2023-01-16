@@ -12,6 +12,7 @@ export function FindPeople ({ id }) {
     }
 
     const handleClick = (evt) => {
+        let id_prof = evt.target.id
         setOtherprofile(!otherprofile)
     }
 
@@ -55,7 +56,7 @@ export function FindPeople ({ id }) {
                     {newFinds.map((newFind) => (
                     <div className="utente" key={newFind.id}>
                         <div>
-                        <img src={newFind.image} onClick={handleClick}/>
+                        <img id={newFind.id} src={newFind.image} onClick={handleClick}/>
                         </div>
                         <div>
                         <h3>{newFind.first} {newFind.last}</h3>
@@ -63,7 +64,7 @@ export function FindPeople ({ id }) {
                     </div>))}
                 </div>}
                 {otherprofile === true &&
-                <OtherProfile />}
+                <OtherProfile handleClick={(evt) => handleClick(evt, evt.target.id)} setOtherprofile={setOtherprofile} otherprofile={otherprofile} />}
         </div>
     )
 }
