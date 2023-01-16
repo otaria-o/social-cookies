@@ -186,18 +186,29 @@ app.get("/users", (req, res) => {
 })
 
 app.get("/search", (req, res) => {
-    console.log('SEARCH PARAMS: ',req.query)
+    // console.log(req.query)
     getMatchingUsers(req.query.q)
     .then(data => {
-        
-        console.log("per i findfriend che matchano", data)
+        console.log("data per il matching", data)
         res.json(data.rows)
     })
     .catch(err => {
-        console.log("error appeared for POST three last usera:", err);
+        console.log("error appeared for POST last three users:", err);
         res.json({success: false})
     })        
 });
+
+app.get("user/:id", (req, res) => {
+    getAllInfo(req.params.id)
+    .then(data => {
+        console.log("data per OTHERPROFILE", data)
+        res.json(data.rows)
+    })
+    .catch(err => {
+        console.log("error appeared for GET otherprofile:", err);
+        res.json({success: false})
+    })   
+})
 
 app.get("*", function (req, res) {
     res.sendFile(path.join(__dirname, "..", "client", "index.html"));
