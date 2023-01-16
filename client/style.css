@@ -95,6 +95,10 @@ button {
     flex-direction: column;
 }
 
+:hover .lastThree img {
+    filter: opacity(80%);
+}
+
 .utente {
     display: flex;
     flex-direction: row;

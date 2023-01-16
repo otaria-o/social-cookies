@@ -52,7 +52,7 @@ exports.getThree = function() {
 
 // search for people
 exports.getMatchingUsers = function(val) {
-    return db.query(`SELECT * FROM users WHERE first ILIKE $1 OR last ILIKE $1;`, [val + '%']);
+    return db.query(`SELECT * FROM users WHERE first ILIKE $1 OR last ILIKE $1 LIMIT 5;`, [val + '%']);
 }
 
 exports.findFriendship = function(user1, user2) {

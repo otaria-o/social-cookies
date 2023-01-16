@@ -122,7 +122,6 @@ app.post("/reset/pwd", (req, res) => {
 
 app.post("/upload", uploader.single("pic"), fileUpload, (req, res) => {
     console.log("uploading!", "req.body:", req.body)
-    // If nothing went wrong the file is already in the uploads directory
     if (req.file) {
         const url = res.locals.fileUrl;
         updateImg(url, req.session.userId)
@@ -189,7 +188,7 @@ app.get("/search", (req, res) => {
     // console.log(req.query)
     getMatchingUsers(req.query.q)
     .then(data => {
-        console.log("data per il matching", data)
+        // console.log("data per il matching", data)
         res.json(data.rows)
     })
     .catch(err => {
@@ -198,11 +197,11 @@ app.get("/search", (req, res) => {
     })        
 });
 
-app.get("user/:id", (req, res) => {
-    getAllInfo(req.params.id)
+app.get("user/:otherUserId", (req, res) => {
+    getAllInfo(`${otherUserId}`)
     .then(data => {
         console.log("data per OTHERPROFILE", data.rows)
-        // res.json(data.rows)
+        res.json(data.rows)
     })
     .catch(err => {
         console.log("error appeared for GET otherprofile:", err);

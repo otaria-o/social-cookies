@@ -4,11 +4,13 @@ import { ProfilePic } from "../profilepic/profilepic";
 import { Profile } from "../profile/profile";
 import { FindPeople } from "../findpeople/findpeople";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { OtherProfile } from "../otherprofile/otherprofile";
 
 export class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            id: "",
             firstname: "",
             lastname: "",
             email: "",
@@ -79,7 +81,7 @@ export class App extends Component {
                     <Logo /> 
                 </div>
                 <div className="pic">
-                    <ProfilePic pic={this.state.image} changePic={this.changePic}/>
+                    <ProfilePic pic={this.state.image} changePic={this.changePic} />
                 </div>  
             </header>
             <hr />
@@ -90,13 +92,18 @@ export class App extends Component {
                     <button onClick={this.logout}>Log out</button>
                 </div>
                 <div className="findpeople">
-                    <FindPeople first={this.state.firstname} last={this.state.lastname} finds={this.state.finds} changeFindUsers={this.changeFindUsers}/>
+                    <FindPeople id={this.state.id} first={this.state.firstname} last={this.state.lastname} finds={this.state.finds} changeFindUsers={this.changeFindUsers} />
                 </div>
             </main>
-            {/* <Routes>
-            <Route path="/user/me" element={<App />}> </Route>
-            </Routes> */}
-                    {/* <Route path="/users" element={<FindPeople />}></Route> */}
+            
+        
+            <BrowserRouter>
+            <Routes>    
+                {/* <Route path="/user/me" element={<ProfilePic />}></Route>
+                <Route path="/people" element={<FindPeople />}></Route> */}
+                <Route path="/otherprofile" element={<OtherProfile />}></Route>
+            </Routes>
+        </BrowserRouter>
         </section>
     }
 }

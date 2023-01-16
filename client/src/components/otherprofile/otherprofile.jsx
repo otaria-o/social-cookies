@@ -1,24 +1,32 @@
 import { useState, useEffect } from 'react';
+// import { useParams } from "react-router";
 
-export function OtherProfile ({ id_prof, handleClick, setOtherprofile, otherprofile }) {
+export function OtherProfile ({ otherUserId }) {
 
-    // const [id_prof, setId_prof] = useState()
-
+    const [ otherprofile, setOtherprofile ] = useState(true)
+    // const { otherUserId } = useParams()
+    // // const [id_prof, setId_prof] = useState()
+    // console.log(otherUserId)
+    
     const handleClose = (evt) => {
         setOtherprofile(!otherprofile)
     }
     
     useEffect(() => {
-        fetch(`user/${key}`)
+        fetch(`user/${otherUserId}`)
         .then(res => res.json())
-        .then(newFinds => {
-            // console.log("dati arrivati al component", newFinds)
-            setFind(newFinds)
+        .then(data => {
+            console.log("data dello user clickato", data)
         })
     },[otherprofile])
 
-    return ( <div><p>ciao I'm the key={}</p>
+    return ( <div>
+        {otherprofile &&
+        <div>
+        <p>ciao I'm the key={otherUserId}</p>
     <button onClick={handleClose}>back</button>
+    </div>
+        }
     </div>)
 
 
