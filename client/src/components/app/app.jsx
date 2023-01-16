@@ -3,6 +3,7 @@ import { Logo } from "../logo/logo";
 import { ProfilePic } from "../profilepic/profilepic";
 import { Profile } from "../profile/profile";
 import { FindPeople } from "../findpeople/findpeople";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 export class App extends Component {
     constructor(props) {
@@ -92,7 +93,10 @@ export class App extends Component {
                     <FindPeople first={this.state.firstname} last={this.state.lastname} finds={this.state.finds} changeFindUsers={this.changeFindUsers}/>
                 </div>
             </main>
-            
+            {/* <Routes>
+            <Route path="/user/me" element={<App />}> </Route>
+            </Routes> */}
+                    {/* <Route path="/users" element={<FindPeople />}></Route> */}
         </section>
     }
 }

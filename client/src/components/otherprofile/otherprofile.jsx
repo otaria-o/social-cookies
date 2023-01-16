@@ -17,7 +17,7 @@ export function OtherProfile ({ id_prof, handleClick, setOtherprofile, otherprof
         })
     },[otherprofile])
 
-    return ( <div><p>ciao I'm the key={evt.target.id}</p>
+    return ( <div><p>ciao I'm the key={}</p>
     <button onClick={handleClose}>back</button>
     </div>)
 
