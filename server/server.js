@@ -156,15 +156,6 @@ app.post("/logout", (req,res) => {
     res.json({success: true})
 });
 
-app.post("/search", (req, res) => {
-    getMatchingUsers(req.body)
-    .then(data => {
-        console.log("per i findfriend che matchano", data)
-    })
-    .catch(err => {
-        console.log("error appeared for POST three last usera:", err);
-    })        
-});
 
 // GET
 
@@ -185,7 +176,7 @@ app.get("/user", (req, res) => {
 app.get("/users", (req, res) => {
     getThree()
     .then( data => {
-        console.log("gli ultimi tre utenti iscritti", data)
+        // console.log("gli ultimi tre utenti iscritti", data)
         res.json(data.rows)
     })
     .catch(err => {
@@ -193,6 +184,20 @@ app.get("/users", (req, res) => {
         res.json({success:false})
     })  
 })
+
+app.get("/search", (req, res) => {
+    console.log('SEARCH PARAMS: ',req.query)
+    getMatchingUsers(req.query.q)
+    .then(data => {
+        
+        console.log("per i findfriend che matchano", data)
+        res.json(data.rows)
+    })
+    .catch(err => {
+        console.log("error appeared for POST three last usera:", err);
+        res.json({success: false})
+    })        
+});
 
 app.get("*", function (req, res) {
     res.sendFile(path.join(__dirname, "..", "client", "index.html"));
