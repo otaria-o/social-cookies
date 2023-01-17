@@ -17,7 +17,7 @@ exports.checkEmail = function(email) {
 
 // insert into the table the secret code of the user who forgot the password
 exports.insertCode = function(code, email) {
-    return db.query(`INSERT INTO reset_codes (code, email) VALUES ($1,$2);`, [code, email])
+    return db.query(`INSERT INTO reset_codes (code, email) VALUES ($1, $2);`, [code, email])
 }
 
 // select the code that matches the email
@@ -62,4 +62,8 @@ exports.findFriendship = function(user1, user2) {
         OR (sender_id = $2 AND recipient_id = $1)
     ;`, [user1, user2]);
 };
+
+exports.insertFriendship = function(user1, user2) {
+    return db.query(`INSERT INTO friendships (sender_id, recipient_id) VALUES ($1, $2);`, [user1, user2]);
+}
 

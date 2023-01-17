@@ -21,13 +21,12 @@ export function OtherProfile ({ }) {
             console.log("data dello user clickato", user)
             setFirst(user.first),
             setLast(user.last),
-            setBio(user.bio),
+            setBio(user.bio)
             
-            // if (user.image === "profile.jpg") {
-            //     setImage("../../../public/profile.jpg")
-            // } else 
-            // setImage(user.image)
-            setImage("../../../public/user.image")
+            if (user.image === "" || user.image === null || user.image === "profile.jpg") {
+                setImage("/profile.jpg")
+            } else
+            setImage(user.image)
         })
     },[])
 

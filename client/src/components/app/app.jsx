@@ -81,8 +81,9 @@ export class App extends Component {
             <header className="profpic">
                 <Logo /> 
                 <nav className="pic">
-                    <button onClick={this.logout}>Log out</button><br />
                     <Link to="/people"><button>Find friends</button></Link>
+                    <Link to="/"><button>Edit your profile</button></Link>
+                    <button onClick={this.logout}>Log out</button><br />
                 </nav>  
                 
                 <ProfilePic pic={this.state.image} changePic={this.changePic} />

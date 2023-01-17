@@ -198,12 +198,22 @@ app.get("/search", (req, res) => {
 });
 
 app.get("/user/friend/:otherUserId", (req, res) => {
-    console.log("arriva al server?", req.params.otherUserId )
+    console.log("arriva al server l'altro user?", req.params.otherUserId)
+    console.log("arriva il corrente user?", req.session.userId)
     const otherUserId = req.params.otherUserId 
-    findFriendship(req.sessionId, otherUserId)
+    findFriendship(req.session.userId, otherUserId)
     .then(data => {
         console.log("data per l'amicizia", data)
-        res.json(data)
+        if (data.rows.length === 0) {
+            res.json({friendship: false})
+        } else if (data.rows[0].accepted === true) {
+            res.json({friendship: true})
+            } else if (data.rows[0].sender_id === req.session.userId) {
+                res.json({pendent: sender_id})
+        }
+        // se il sender e il primo manda pendente request by me e rendere cancella la richiesta
+        // se il sender e il secondo allora manda pendent by the other e rendi cancella amicizia
+        // res.json(data)
     })
     .catch(err => {
         console.log("error appeared for GET amicizia:", err);
@@ -218,6 +228,7 @@ app.get("/user/:otherUserId", (req, res) => {
     .then(data => {
         console.log("data per OTHERPROFILE", data.rows)
         // se non esiste l'utente mandare un success: false con messaggio utente non trovato o 404 o quel cavolo che voglio
+
         res.json(data.rows[0])
     })
     .catch(err => {
