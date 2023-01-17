@@ -40,13 +40,6 @@ export function FindPeople ({ id }) {
         .then(newFinds => {
             console.log("qui check", newFinds)
             setFind(newFinds)
-            // vorrei eliminare dall'array risultante il corrente user se presente (??)
-            for (let i=0; i<newFinds.length; i++) {
-                if (newFinds[i].id === { id }) {
-                    console.log("uguali")
-                    // (newFinds[i].id = null) && (newFinds[i].first = null) && (newFinds[i].last = null) && (newFinds[i].image = null)
-                }
-            }
         })
     }, [])
 

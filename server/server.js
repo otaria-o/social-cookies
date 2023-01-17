@@ -173,26 +173,26 @@ app.get("/user", (req, res) => {
 })
 
 app.get("/users", (req, res) => {
-    getThree()
+    getThree(req.session.userId)
     .then( data => {
         // console.log("gli ultimi tre utenti iscritti", data)
         res.json(data.rows)
     })
     .catch(err => {
-        console.log("error appeared for POST IMG:", err)
+        console.log("error appeared for POST:", err)
         res.json({success:false})
     })  
 })
 
 app.get("/search", (req, res) => {
     // console.log(req.query)
-    getMatchingUsers(req.query.q)
+    getMatchingUsers(req.query.q, req.session.userId)
     .then(data => {
         // console.log("data per il matching", data)
         res.json(data.rows)
     })
     .catch(err => {
-        console.log("error appeared for POST last three users:", err);
+        console.log("error appeared for POST search:", err);
         res.json({success: false})
     })        
 });

@@ -22,10 +22,6 @@ export function OtherProfile ({ }) {
             setFirst(user.first),
             setLast(user.last),
             setBio(user.bio)
-            
-            if (user.image === "" || user.image === null || user.image === "profile.jpg") {
-                setImage("/profile.jpg")
-            } else
             setImage(user.image)
         })
     },[])
