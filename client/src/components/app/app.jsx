@@ -5,6 +5,7 @@ import { Profile } from "../profile/profile";
 import { FindPeople } from "../findpeople/findpeople";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { OtherProfile } from "../otherprofile/otherprofile";
+import { Link } from 'react-router-dom';
 
 export class App extends Component {
     constructor(props) {
@@ -75,35 +76,26 @@ export class App extends Component {
     }
 
     render() {
-        return <section>
+        return <>
+        <BrowserRouter>
             <header className="profpic">
-                <div className="logopiccolo">
-                    <Logo /> 
-                </div>
-                <div className="pic">
-                    <ProfilePic pic={this.state.image} changePic={this.changePic} />
-                </div>  
+                <Logo /> 
+                <nav className="pic">
+                    <button onClick={this.logout}>Log out</button><br />
+                    <Link to="/people"><button>Find friends</button></Link>
+                </nav>  
+                
+                <ProfilePic pic={this.state.image} changePic={this.changePic} />
             </header>
             <hr />
             <main>
-                <div className="profilebig">
-                    <Profile first={this.state.firstname} last={this.state.lastname} bio={this.state.bio} changeBio={this.changeBio} pic={this.state.image} changePic={this.changePic}/>
-                    <br />
-                    <button onClick={this.logout}>Log out</button>
-                </div>
-                <div className="findpeople">
-                    <FindPeople id={this.state.id} first={this.state.firstname} last={this.state.lastname} finds={this.state.finds} changeFindUsers={this.changeFindUsers} />
-                </div>
+                <Routes>    
+                    <Route path="/" element={<Profile first={this.state.firstname} last={this.state.lastname} bio={this.state.bio} changeBio={this.changeBio} pic={this.state.image} changePic={this.changePic}/>}></Route>
+                    <Route path="/people" element={<FindPeople />}></Route>
+                    <Route path="/otheruser/:otherUserId" element={<OtherProfile />}></Route>
+                </Routes>
             </main>
-            
-        
-            <BrowserRouter>
-            <Routes>    
-                {/* <Route path="/user/me" element={<ProfilePic />}></Route>
-                <Route path="/people" element={<FindPeople />}></Route> */}
-                <Route path="/otherprofile" element={<OtherProfile />}></Route>
-            </Routes>
-        </BrowserRouter>
-        </section>
+            </BrowserRouter>
+        </>
     }
 }

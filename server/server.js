@@ -197,11 +197,28 @@ app.get("/search", (req, res) => {
     })        
 });
 
-app.get("user/:otherUserId", (req, res) => {
-    getAllInfo(`${otherUserId}`)
+app.get("/user/friend/:otherUserId", (req, res) => {
+    console.log("arriva al server?", req.params.otherUserId )
+    const otherUserId = req.params.otherUserId 
+    findFriendship(req.sessionId, otherUserId)
+    .then(data => {
+        console.log("data per l'amicizia", data)
+        res.json(data)
+    })
+    .catch(err => {
+        console.log("error appeared for GET amicizia:", err);
+        res.json({success: false})
+    })        
+});
+
+app.get("/user/:otherUserId", (req, res) => {
+    console.log("arriva al server?", req.params.otherUserId )
+    const otherUserId = req.params.otherUserId 
+    getAllInfo(otherUserId)
     .then(data => {
         console.log("data per OTHERPROFILE", data.rows)
-        res.json(data.rows)
+        // se non esiste l'utente mandare un success: false con messaggio utente non trovato o 404 o quel cavolo che voglio
+        res.json(data.rows[0])
     })
     .catch(err => {
         console.log("error appeared for GET otherprofile:", err);

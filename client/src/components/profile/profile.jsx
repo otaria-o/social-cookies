@@ -18,7 +18,7 @@ export class Profile extends Component {
     }
 
     render() {
-        return <div>
+        return <div className="profilebig">
             <ProfilePic pic={this.props.pic} changePic={this.changePic} />
             <h2>{this.props.first} {this.props.last}</h2>
             <br />
