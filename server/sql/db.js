@@ -64,6 +64,10 @@ exports.findFriendship = function(user1, user2) {
 };
 
 exports.insertFriendship = function(user1, user2) {
-    return db.query(`INSERT INTO friendships (sender_id, recipient_id) VALUES ($1, $2);`, [user1, user2]);
+    return db.query(`INSERT INTO friendships (sender_id, recipient_id) VALUES ($1, $2) RETURNING *;`, [user1, user2]);
+}
+
+exports.updateFriendshipTrue = function(user1, user2) {
+    return db.query(`UPDATE friendships SET accepted = TRUE WHERE sender_id = $1 AND recipient_id = $2 RETURNING *;`, [user1, user2]);
 }
 
