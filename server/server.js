@@ -204,16 +204,26 @@ app.get("/user/friend/:otherUserId", (req, res) => {
     findFriendship(req.session.userId, otherUserId)
     .then(data => {
         console.log("data per l'amicizia", data)
+
+        // if the users are not in the table friendship
         if (data.rows.length === 0) {
             res.json({friendship: false})
+
+        // if there is a friendship
         } else if (data.rows[0].accepted === true) {
             res.json({friendship: true})
+
+            // if there is a request by the current/loggedin user
             } else if (data.rows[0].sender_id === req.session.userId) {
-                res.json({pendent: sender_id})
-        }
-        // se il sender e il primo manda pendente request by me e rendere cancella la richiesta
-        // se il sender e il secondo allora manda pendent by the other e rendi cancella amicizia
-        // res.json(data)
+            // && (data.rows[0].recipient_id === otherUserId)) {
+                res.json(data.rows[0])
+
+                // if the current/loggedin user is the recipient
+                } else if (data.rows[0].sender_id === otherUserId) {
+                    // && data.rows[0].recipient_id === req.session.userId) {
+                    res.json(data.rows[0])
+                    }
+        
     })
     .catch(err => {
         console.log("error appeared for GET amicizia:", err);

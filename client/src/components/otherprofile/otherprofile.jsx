@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams } from "react-router";
 import { Link } from 'react-router-dom';
-import { Logo } from "../logo/logo";
 import { FriendButton } from "../friendbutton/friendbutton";
 
 export function OtherProfile ({ }) {
@@ -14,7 +13,7 @@ export function OtherProfile ({ }) {
     
     
     useEffect(() => {
-        console.log("Other user Id", otherUserId);
+        // console.log("Other user Id", otherUserId);
         fetch(`/user/${otherUserId}`)
         .then(res => res.json())
         .then(user => {
@@ -29,9 +28,9 @@ export function OtherProfile ({ }) {
     return ( <div>
         <div>
             <img src={image} />
-            <FriendButton otherUserId={otherUserId}/>
             <h2>{first} {last}</h2>
             <p>{bio}</p>
+            <FriendButton otherUserId={otherUserId}/>
             <Link to="/people"><button>back</button></Link>
     </div>
     </div>)
