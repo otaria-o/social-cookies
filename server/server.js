@@ -198,30 +198,30 @@ app.get("/search", (req, res) => {
 });
 
 app.get("/user/friend/:otherUserId", (req, res) => {
-    console.log("arriva al server l'altro user?", req.params.otherUserId)
-    console.log("arriva il corrente user?", req.session.userId)
+    // console.log("arriva al server l'altro user?", req.params.otherUserId)
+    // console.log("arriva il corrente user?", req.session.userId)
     const otherUserId = req.params.otherUserId 
     findFriendship(req.session.userId, otherUserId)
     .then(data => {
         console.log("data per l'amicizia", data)
 
         // if the users are not in the table friendship
-        if (data.rows.length === 0) {
-            res.json({friendship: false})
+        if (!data.rows[0]) {
+            res.json({buttonText: "Make friendship"})
 
         // if there is a friendship
         } else if (data.rows[0].accepted === true) {
-            res.json({friendship: true})
+            res.json({buttonText: "End friendship"})
 
             // if there is a request by the current/loggedin user
-            } else if (data.rows[0].sender_id === req.session.userId) {
-            // && (data.rows[0].recipient_id === otherUserId)) {
-                res.json(data.rows[0])
+            } else if (data.rows[0].sender_id === req.session.userId
+            && data.rows[0].recipient_id === otherUserId) {
+                res.json({buttonText: "Cancel friendship"})
 
                 // if the current/loggedin user is the recipient
-                } else if (data.rows[0].sender_id === otherUserId) {
+                } else if (data.rows[0].accepted === false) {
                     // && data.rows[0].recipient_id === req.session.userId) {
-                    res.json(data.rows[0])
+                    res.json({buttonText: "Accept friendship"})
                     }
         
     })
