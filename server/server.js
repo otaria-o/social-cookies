@@ -155,9 +155,11 @@ app.post("/user/friendrequest/:otherUserId", (req, res) => {
     console.log(req.body)
 
     // action: cancel if there is a friendship and a user wants to end it or if the sender cancel his request
-    if (req.body.friendship === true || req.body.friendship === "pendentbysender_id") {
+    if (req.body.friendship === "yes" || req.body.friendship === "pendentbysender_id") {
         cancelFriendship(req.session.userId, otherUserId)
-        .then(result => {res.json(result.rows[0])})
+        .then(result => {
+            console.log(result)
+            res.json(result.rows)})
         .catch(err => {
             console.log("error appeared for AMICIZIAREQ:", err)
             res.json({success:false})
@@ -165,9 +167,11 @@ app.post("/user/friendrequest/:otherUserId", (req, res) => {
     } 
     
     // action: insert: if there is no friendship insert the frienship request into the table
-    else if (req.body.friendship === false) {
+    else if (req.body.friendship === "not") {
         insertFriendship(req.session.userId, otherUserId) 
-        .then(result => {res.json(result.rows[0])})
+        .then(result => {
+            console.log(result)
+            res.json(result.rows[0])})
         .catch(err => {
             console.log("error appeared for AMICIZIAREQ:", err)
             res.json({success:false})

@@ -17,7 +17,7 @@ export function OtherProfile ({ }) {
         fetch(`/user/${otherUserId}`)
         .then(res => res.json())
         .then(user => {
-            console.log("data dello user clickato", user)
+            // console.log("data dello user clickato", user)
             setFirst(user.first),
             setLast(user.last),
             setBio(user.bio)

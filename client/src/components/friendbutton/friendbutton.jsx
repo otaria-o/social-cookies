@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 export function FriendButton ({ otherUserId }) {
 
     const [ msgbutton, setMsgbutton ] = useState("")
-    const [ friendship, setFriendship ] = useState(true || false || "pendentbysender_id" || "pendentbyOtherUser")
+    const [ friendship, setFriendship ] = useState("yes" || "not" || "pendentbysender_id" || "pendentbyOtherUser")
     // const [ request, setRequest ] = useState("")
     const [ errMessage, setErrmessage ] = useState("")
 
@@ -11,49 +11,38 @@ export function FriendButton ({ otherUserId }) {
     const handleClick = (evt) => {
         evt.preventDefault();
 
-        // switch (friendship) {
-        //     case true :
-        //         setRequest("End friendship")
-        //         break;
-        //     case false :
-        //         setRequest("Make friend request")
-        //         break;
-        //     case "pendentbysender_id" :
-        //         setRequest("Cancel request")
-        //         break;
-        //     case "pendentbyOtherUser" :
-        //         setRequest("Accept friend request")
-        //         break;    
-        // }
-
         fetch(`/user/friendrequest/${otherUserId}`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                // request : request,
                 friendship: friendship
             })
         })
         .then(res => res.json())
-        .then(result => {
-            console.log("come va questa amicizia?", result)
-            if (!result) {
-                setFriendship(false)
-                setMsgbutton("cancel friend request")
+        .then(data => {
+            console.log("come va questa amicizia?", data)
+            if (!data.rows) {
                 console.log("hallo")
-             } else if (result.accepted) {
-                setFriendship(true)
+                setFriendship("not")
+                setMsgbutton("Make frien request")
+                
+            } else if (data.rows[0].accepted === true) {
+                setFriendship("yes")
                 setMsgbutton("End friendship")
             
-            } else if ((!result.accepted) && result.sender_id === otherUserId) {
-                setFriendship("pendentbyOtherUser")
-                setMsgbutton("Accept friend request")
-            } else if ((!result.accepted) && result.recipient_id === otherUserId) {
-                setFriendship("pendentbysender_id")
-                setMsgbutton("Cancel request")
-            }
+                
+                        } else if (data.rows[0].recipient_id === otherUserId) {
+                            console.log("pendent")
+                            setFriendship("pendentbysender_id")
+                            setMsgbutton("Cancel request")
+                            } else if (data.rows[0].accepted === false) {
+                                setFriendship("pendentbyOtherUser")
+                                setMsgbutton("Accept friend request")
+                            } else if (!result.success) {
+                                setErrmessage("Sorry, something went wrong, try again later.")    
+                            }
 
         })
         .catch(err => {
@@ -72,11 +61,11 @@ export function FriendButton ({ otherUserId }) {
             
              if (friendship.buttonText === "End friendship" ) {
                 setMsgbutton("End friendship")
-                setFriendship(true)
+                setFriendship("yes")
             }  
             else if(friendship.buttonText === "Make friend request") {
                 setMsgbutton("Make friend request")
-                setFriendship(false)
+                setFriendship("not")
             } 
             
                 else if (friendship.buttonText === "Cancel request" ) {
