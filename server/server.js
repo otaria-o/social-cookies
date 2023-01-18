@@ -30,7 +30,6 @@ app.use((req, res, next) => {
 });
 
 
-
 // POST
 app.post("/register", (req, res) => {
     // add check in order to not to have empty input
@@ -159,7 +158,8 @@ app.post("/user/friendrequest/:otherUserId", (req, res) => {
         cancelFriendship(req.session.userId, otherUserId)
         .then(result => {
             console.log(result)
-            res.json(result.rows)})
+            res.json(result)
+        })    
         .catch(err => {
             console.log("error appeared for AMICIZIAREQ:", err)
             res.json({success:false})
@@ -171,7 +171,8 @@ app.post("/user/friendrequest/:otherUserId", (req, res) => {
         insertFriendship(req.session.userId, otherUserId) 
         .then(result => {
             console.log(result)
-            res.json(result.rows[0])})
+            res.json(result)
+        })
         .catch(err => {
             console.log("error appeared for AMICIZIAREQ:", err)
             res.json({success:false})
@@ -181,7 +182,9 @@ app.post("/user/friendrequest/:otherUserId", (req, res) => {
         // action: update false to true if a frienship is accepted
         else if (req.body.friendship === "pendentbyOtherUser") {
             updateFriendshipTrue(req.session.userId, otherUserId)
-            .then(result => {res.json(result.rows[0])})
+            .then(result => {
+                res.json(result)
+            })
             .catch(err => {
                 console.log("error appeared for AMICIZIAREQ:", err)
                 res.json({success:false})
@@ -248,26 +251,51 @@ app.get("/user/friend/:otherUserId", (req, res) => {
     .then(data => {
         console.log("data per l'amicizia", data)
 
-        // if the users are not in the table friendship
         if (!data.rows[0]) {
-            res.json({buttonText: "Make friend request"})
-
-        // if there is a friendship
-        } else if (data.rows[0].accepted === true) {
-            res.json({buttonText: "End friendship"})
-
-            // if there is a request by the current/loggedin user
-            } else if (data.rows[0].sender_id === req.session.userId) {
-            // && data.rows[0].recipient_id === otherUserId) {
-                res.json({buttonText: "Cancel request"})
-
-                // if the current/loggedin user is the recipient
+            console.log("hallo")
+            res.json({
+                friendship : "not",
+                msgbutton : "Make friend request"
+            })
+            } else if (data.rows[0].accepted === true) {
+                res.json({
+                    friendship : "yes",
+                    msgbutton : "End friendship"
+                })
+                } else if (data.rows[0].sender_id === req.session.userId) {
+                console.log("pendent")
+                res.json({
+                    friendship : "pendentbysender_id",
+                    msgbutton : "Cancel request"    
+                })
                 } else if (data.rows[0].accepted === false) {
-                    // && data.rows[0].recipient_id === req.session.userId) {
-                    res.json({buttonText: "Accept friendship"})
+                    res.json({
+                        friendship : "pendentbyOtherUser",
+                        msgbutton : "Accept friend request"
+                    })
                     }
-        
-    })
+    }) 
+        // if the users are not in the table friendship
+    //     if (!data.rows[0]) {
+    //         console.log("array?", data.rows)
+    //         res.json({buttonText: "Make friend request"})
+
+    //     // if there is a friendship
+    //     } else if (data.rows[0].accepted === true) {
+    //         res.json({buttonText: "End friendship"})
+
+    //         // if there is a request by the current/loggedin user
+    //         } else if (data.rows[0].sender_id === req.session.userId) {
+    //         // && data.rows[0].recipient_id === otherUserId) {
+    //             res.json({buttonText: "Cancel request"})
+
+    //             // if the current/loggedin user is the recipient
+    //             } else if (data.rows[0].accepted === false) {
+    //                 // && data.rows[0].recipient_id === req.session.userId) {
+    //                 res.json({buttonText: "Accept friendship"})
+    //                 }
+
+    // })
     .catch(err => {
         console.log("error appeared for GET amicizia:", err);
         res.json({success: false})
@@ -298,3 +326,6 @@ app.get("*", function (req, res) {
 app.listen(PORT, function () {
     console.log(`Express server listening on port ${PORT}`);
 });
+
+
+
