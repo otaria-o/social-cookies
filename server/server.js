@@ -15,7 +15,7 @@ app.use(cookieSession( {
 }));
 
 // connecting files
-const { addUser, checkEmail, insertCode, selectCode, updatePassword, updateImg, updateBio, getAllInfo, getThree, getMatchingUsers, findFriendship } = require("./sql/db.js")
+const { addUser, checkEmail, insertCode, selectCode, updatePassword, updateImg, updateBio, getAllInfo, getThree, getMatchingUsers, findFriendship, cancelFriendship, insertFriendship, updateFriendshipTrue } = require("./sql/db.js")
 const crypt = require("../bcrypt.js")
 const { uploader, fileUpload } = require("./uploads/upload.js")
 
@@ -149,6 +149,43 @@ app.post("/bio", (req, res) => {
     })
 });
 
+// FRIENDBUTTON 
+app.post("/user/friendrequest/:otherUserId", (req, res) => {
+    const otherUserId = req.params.otherUserId
+    console.log(req.body)
+
+    // action: cancel if there is a friendship and a user wants to end it or if the sender cancel his request
+    if (req.body.friendship === true || req.body.friendship === "pendentbysender_id") {
+        cancelFriendship(req.session.userId, otherUserId)
+        .then(result => {res.json(result.rows[0])})
+        .catch(err => {
+            console.log("error appeared for AMICIZIAREQ:", err)
+            res.json({success:false})
+        })  
+    } 
+    
+    // action: insert: if there is no friendship insert the frienship request into the table
+    else if (req.body.friendship === false) {
+        insertFriendship(req.session.userId, otherUserId) 
+        .then(result => {res.json(result.rows[0])})
+        .catch(err => {
+            console.log("error appeared for AMICIZIAREQ:", err)
+            res.json({success:false})
+        })  
+        } 
+        
+        // action: update false to true if a frienship is accepted
+        else if (req.body.friendship === "pendentbyOtherUser") {
+            updateFriendshipTrue(req.session.userId, otherUserId)
+            .then(result => {res.json(result.rows[0])})
+            .catch(err => {
+                console.log("error appeared for AMICIZIAREQ:", err)
+                res.json({success:false})
+            })  
+        }
+})
+
+
 app.post("/logout", (req,res) => {
     req.session.userId = null
     console.log("sei stato loggato fuori")
@@ -197,6 +234,8 @@ app.get("/search", (req, res) => {
     })        
 });
 
+
+
 app.get("/user/friend/:otherUserId", (req, res) => {
     // console.log("arriva al server l'altro user?", req.params.otherUserId)
     // console.log("arriva il corrente user?", req.session.userId)
@@ -207,16 +246,16 @@ app.get("/user/friend/:otherUserId", (req, res) => {
 
         // if the users are not in the table friendship
         if (!data.rows[0]) {
-            res.json({buttonText: "Make friendship"})
+            res.json({buttonText: "Make friend request"})
 
         // if there is a friendship
         } else if (data.rows[0].accepted === true) {
             res.json({buttonText: "End friendship"})
 
             // if there is a request by the current/loggedin user
-            } else if (data.rows[0].sender_id === req.session.userId
-            && data.rows[0].recipient_id === otherUserId) {
-                res.json({buttonText: "Cancel friendship"})
+            } else if (data.rows[0].sender_id === req.session.userId) {
+            // && data.rows[0].recipient_id === otherUserId) {
+                res.json({buttonText: "Cancel request"})
 
                 // if the current/loggedin user is the recipient
                 } else if (data.rows[0].accepted === false) {

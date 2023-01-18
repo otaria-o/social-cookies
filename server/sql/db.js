@@ -68,10 +68,13 @@ exports.insertFriendship = function(user1, user2) {
 }
 
 exports.updateFriendshipTrue = function(user1, user2) {
-    return db.query(`UPDATE friendships SET accepted = TRUE WHERE sender_id = $1 AND recipient_id = $2 RETURNING *;`, [user1, user2]);
+    return db.query(`UPDATE friendships SET accepted = TRUE WHERE (sender_id = $1 AND recipient_id = $2) OR (sender_id = $2 AND recipient_id = $1) RETURNING *;`, [user1, user2]);
 }
 
 exports.cancelFriendship = function(user1, user2) {
-    return db.query(`DELETE from friendships WHERE sender_id = $1 AND recipient_id = $2 RETURNING *;`, [user1, user2])
+    return db.query(`DELETE from friendships 
+    WHERE (sender_id = $1 AND recipient_id = $2)
+    OR (sender_id = $2 AND recipient_id = $1)
+    RETURNING *;`, [user1, user2])
 }
 
