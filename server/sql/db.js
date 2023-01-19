@@ -45,7 +45,7 @@ exports.updateBio = function(bio, userId) {
     return db.query(`UPDATE users SET bio = $1 WHERE id = $2 RETURNING *;`, [bio, userId])
 }
 
-// get the last four people
+// get the last three people
 exports.getThree = function(id) {
     return db.query(`SELECT * FROM users WHERE id != $1 ORDER BY id DESC LIMIT 3;`, [id])
 }
@@ -78,3 +78,10 @@ exports.cancelFriendship = function(user1, user2) {
     ;`, [user1, user2])
 }
 
+exports.findFriendsOrWhoWantsToBe = function(id) {
+    return db.quesry(`SELECT u.first, u.last, u.image FROM users as u JOIN friendships as f ON 
+    ((f.sender_id = u.id) AND (recipient_id = $1) AND (accepted = FALSE))
+    OR ((f.sender_id = u.id) AND (f.recipient_id = $1) AND (f.accepted = TRUE))
+    OR ((f.recipient_id = u.id) AND (f.sender_id = $1) AND (f.accepted = true))
+    ;`, [id])
+}

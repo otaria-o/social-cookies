@@ -42,8 +42,13 @@ export class ResetPassword extends Component {
                     return res.json();
                 })
                 .then(data => {
-                    console.log("alles klar!!!", data); 
+                    if (data.success === false) {
+                        this.setState({ errorMessage: "Sorry, something went wrong, is this the correct email address?" })
+                    } else {
+                        console.log("alles klar!!!", data); 
                     this.setState({ step: "2" });
+                    this.setState({ errorMessage: "" })
+                    }    
                 })
                 .catch(err => {
                     console.log("errore nella fetch 1!!", err)

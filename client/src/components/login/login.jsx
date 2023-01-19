@@ -37,13 +37,18 @@ export class Login extends Component {
             return res.json();
         })
         .then(data => {
-            console.log(data); 
-            location.assign("/")
+            if (data.success = false) {
+                this.setState({ errorMessage: "Sorry, something went wrong." })
+            } else {
+                console.log(data); 
+                location.assign("/")
+                this.setState({ errorMessage: "" })
+            }
         })
         .catch(err => {
             console.log("errore nella fetch!!", err)
             // ritorna il messaggio di errore
-            this.setState({ errorMessage: "Sorry, something went wrong." })
+            
         })
     }
 

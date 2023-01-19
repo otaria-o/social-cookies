@@ -15,7 +15,7 @@ app.use(cookieSession( {
 }));
 
 // connecting files
-const { addUser, checkEmail, insertCode, selectCode, updatePassword, updateImg, updateBio, getAllInfo, getThree, getMatchingUsers, findFriendship, cancelFriendship, insertFriendship, updateFriendshipTrue } = require("./sql/db.js")
+const { addUser, checkEmail, insertCode, selectCode, updatePassword, updateImg, updateBio, getAllInfo, getThree, getMatchingUsers, findFriendship, cancelFriendship, insertFriendship, updateFriendshipTrue, findFriendsOrWhoWantsToBe } = require("./sql/db.js")
 const crypt = require("../bcrypt.js")
 const { uploader, fileUpload } = require("./uploads/upload.js")
 
@@ -62,8 +62,12 @@ app.post("/login", (req, res) => {
                     console.log("controllo password:", bool)
                     req.session.userId = data.rows[0].id
                     res.json({success: true})
-                }    
+                } else {
+                    res.json({success:false})
+                } 
             })
+        } else {
+            res.json({success:false})
         }
     })
     .catch(err => {
@@ -84,7 +88,9 @@ app.post("/reset", (req, res) => {
             insertCode(secretCode, data.rows[0].email)
             console.log("code", secretCode)
             console.log("email", data.rows[0].email)
-        }  
+        }  else {
+            req.json({success:false})
+        }
     })
     .then(data => {
         console.log(data)
@@ -154,7 +160,7 @@ app.post("/user/friendrequest/:otherUserId", (req, res) => {
     console.log(req.body)
 
     // action: cancel if there is a friendship and a user wants to end it or if the sender cancel his request
-    if (req.body.friendship === "yes" || req.body.friendship === "pendentbysender_id") {
+    if (req.body.friendship === "yes" || req.body.friendship === "pendingbysender_id") {
         cancelFriendship(req.session.userId, otherUserId)
         .then(result => {
             console.log(result)
@@ -180,7 +186,7 @@ app.post("/user/friendrequest/:otherUserId", (req, res) => {
         } 
         
         // action: update false to true if a frienship is accepted
-        else if (req.body.friendship === "pendentbyOtherUser") {
+        else if (req.body.friendship === "pendingbyOtherUser") {
             updateFriendshipTrue(req.session.userId, otherUserId)
             .then(result => {
                 res.json(result)
@@ -263,14 +269,14 @@ app.get("/user/friend/:otherUserId", (req, res) => {
                     msgbutton : "End friendship"
                 })
                 } else if (data.rows[0].sender_id === req.session.userId) {
-                console.log("pendent")
+                console.log("pending")
                 res.json({
-                    friendship : "pendentbysender_id",
+                    friendship : "pendingbysender_id",
                     msgbutton : "Cancel request"    
                 })
                 } else if (data.rows[0].accepted === false) {
                     res.json({
-                        friendship : "pendentbyOtherUser",
+                        friendship : "pendingbyOtherUser",
                         msgbutton : "Accept friend request"
                     })
                     }

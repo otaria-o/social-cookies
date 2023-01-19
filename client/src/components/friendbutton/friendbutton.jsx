@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 export function FriendButton ({ otherUserId }) {
 
     const [ msgbutton, setMsgbutton ] = useState("")
-    const [ friendship, setFriendship ] = useState("yes" || "not" || "pendentbysender_id" || "pendentbyOtherUser")
+    const [ friendship, setFriendship ] = useState("yes" || "not" || "pendingbysender_id" || "pendingbyOtherUser")
     const [ errMessage, setErrmessage ] = useState("")
 
 
@@ -30,11 +30,11 @@ export function FriendButton ({ otherUserId }) {
                 setFriendship("yes")
                 setMsgbutton("End friendship")
                 } else if (data.rows[0].recipient_id === otherUserId) {
-                    console.log("pendent")
-                    setFriendship("pendentbysender_id")
+                    console.log("pending")
+                    setFriendship("pendingbysender_id")
                     setMsgbutton("Cancel request")
                     } else if (data.rows[0].accepted === false) {
-                        setFriendship("pendentbyOtherUser")
+                        setFriendship("pendingbyOtherUser")
                         setMsgbutton("Accept friend request")
                         } else if (!result.success) {
                             // ritorna il messaggio di errore
