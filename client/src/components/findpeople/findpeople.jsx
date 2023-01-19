@@ -14,11 +14,6 @@ export function FindPeople ({ id }) {
         setSearch(evt.target.value)     
     }
 
-    // const handleClick = (evt) => {
-    //     setOtherprofile(!otherprofile)
-    //     setOtherUserId(evt.target.id)
-    // }
-
     useEffect(() => {
         fetch(`/search/?q=${search}`)
         .then(res => res.json())
@@ -33,7 +28,6 @@ export function FindPeople ({ id }) {
         })
     }, [search])
     
-
     useEffect(() => {
         fetch("/users")
         .then(res => res.json())

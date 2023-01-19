@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 
 export function FriendButton ({ otherUserId }) {
 
-    const [ msgbutton, setMsgbutton ] = useState("")
+    const [ msgbutton, setMsgbutton ] = useState("Make friend request" || "End friendship" || "Cancel request" || "Accept friend request")
     const [ friendship, setFriendship ] = useState("yes" || "not" || "pendingbysender_id" || "pendingbyOtherUser")
     const [ errMessage, setErrmessage ] = useState("")
 

@@ -28,9 +28,9 @@
             return msgbutton = "End friendship"
             } else if (friendship = "pendentbysender_id") {
                 return msgbutton = "Cancel request" 
-            } else if (friendship = "pendentbyOtherUser") {
-                return msgbutton = "Accept friend request"
-            }
+                } else if (friendship = "pendentbyOtherUser") {
+                    return msgbutton = "Accept friend request"
+                    }
         }       
 
 

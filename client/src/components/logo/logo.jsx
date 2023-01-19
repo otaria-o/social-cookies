@@ -1,5 +1,5 @@
 export function Logo() {
-        return <div className="logopiccolo">
+        return <div>
                 <img src="/cookies.jpg" alt="cookies" />
         </div>   
 }

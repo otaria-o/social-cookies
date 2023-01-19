@@ -24,10 +24,10 @@ export class ResetPassword extends Component {
 
     handleSubmit = (evt) => {
         evt.preventDefault();
-        console.log(this.state)
+        // console.log(this.state)
         switch (this.state.step) {
             case "1":
-                // Make a Post request to server and check if the user exists
+                // post request : check if the user exists
                 fetch("/reset", {
                     method: "POST",
                     headers: {
@@ -38,14 +38,14 @@ export class ResetPassword extends Component {
                     })
                 })
                 .then(res => {
-                    console.log(res)
+                    // console.log(res)
                     return res.json();
                 })
                 .then(data => {
                     if (data.success === false) {
                         this.setState({ errorMessage: "Sorry, something went wrong, is this the correct email address?" })
                     } else {
-                        console.log("alles klar!!!", data); 
+                        // console.log("alles klar!!!", data); 
                     this.setState({ step: "2" });
                     this.setState({ errorMessage: "" })
                     }    
@@ -58,7 +58,7 @@ export class ResetPassword extends Component {
                 break;
 
             case "2":
-                // Make a Post request to server and check if the user exists
+                // post request : check if the user exists
                 fetch("/reset/pwd", {
                     method: "POST",
                     headers: {
@@ -73,13 +73,12 @@ export class ResetPassword extends Component {
                     return res.json();
                 })
                 .then(data => {
-                    console.log("ciaooooooo", data); 
+                    // console.log("ciaooooooo", data); 
                     if (data.success) {
                         this.setState({ step: "3" });
                     } else {
                         this.setState({ errorMessage: "Sorry, something went wrong, try again."});
-                    }
-                    
+                    }   
                 })
                 .catch(err => {
                 console.log("errore nella fetch 2!!", err)
@@ -118,7 +117,7 @@ export class ResetPassword extends Component {
                     <input required name="code" type="text" onChange={this.handleInputChange} />
                     <br />
                     <div>
-                    <span>Password</span>
+                    <span>New password</span>
                     <br />
                     <input required name="password" type="password" onChange={this.handleInputChange} />
                     </div>

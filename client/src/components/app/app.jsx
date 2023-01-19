@@ -5,7 +5,8 @@ import { Profile } from "../profile/profile";
 import { FindPeople } from "../findpeople/findpeople";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { OtherProfile } from "../otherprofile/otherprofile";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
+// import { Friends } from "../friends/friends"
 
 export class App extends Component {
     constructor(props) {
@@ -65,7 +66,7 @@ export class App extends Component {
             return res.json();
             })
         .then(data => {
-            console.log("data from logout", data)  
+            // console.log("data from logout", data)  
             if ({success: true}) {
                 location.replace("/")
             }
@@ -78,14 +79,16 @@ export class App extends Component {
     render() {
         return <>
         <BrowserRouter>
-            <header className="profpic">
+            <header className="header">
+                <div className="logopiccolo">
                 <Logo /> 
-                <nav className="pic">
-                    <Link to="/people"><button>Find friends</button></Link>
+                </div>
+                <nav className="nav">
+                    <Link to="/people"><button>Meet people</button></Link>
+                    {/* <Link to="/myfriends"><button>Friends</button></Link> */}
                     <Link to="/"><button>Edit your profile</button></Link>
                     <button onClick={this.logout}>Log out</button><br />
-                </nav>  
-                
+                </nav>    
                 <ProfilePic pic={this.state.image} changePic={this.changePic} />
             </header>
             <hr />
@@ -93,6 +96,7 @@ export class App extends Component {
                 <Routes>    
                     <Route path="/" element={<Profile first={this.state.firstname} last={this.state.lastname} bio={this.state.bio} changeBio={this.changeBio} pic={this.state.image} changePic={this.changePic}/>}></Route>
                     <Route path="/people" element={<FindPeople />}></Route>
+                    {/* <Route path="/myfriends" element={<Friends />}></Route> */}
                     <Route path="/otheruser/:otherUserId" element={<OtherProfile />}></Route>
                 </Routes>
             </main>

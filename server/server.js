@@ -324,6 +324,25 @@ app.get("/user/:otherUserId", (req, res) => {
     })   
 })
 
+app.get("/friends", (req, res) => {
+    findFriendsOrWhoWantsToBe(req.session.userId)
+    .then(friends => {
+        console.log(data)
+        if (!friends.rows) {
+            res.json({success: false})
+        } else {
+            const alreadyFriends = datas.filter(data => data.accepted = true)
+            const whoWantsToBe = datas.filter(data => accepted = false )
+        }
+        
+         
+    })
+    .catch(err => {
+        console.log("error appeared for GET otherprofile:", err);
+        res.json({success: false})
+    })   
+});
+
 app.get("*", function (req, res) {
     res.sendFile(path.join(__dirname, "..", "client", "index.html"));
 });

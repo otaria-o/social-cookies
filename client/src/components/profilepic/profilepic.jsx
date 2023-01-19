@@ -16,9 +16,7 @@ export class ProfilePic extends Component {
 
     render() {
         return <div className="pic">
-            <div >
                 <img onClick={this.toggleUploader} src={this.props.pic} alt={this.username} />
-            </div>
             <div>
                 {this.state.showUploader && 
                 <Uploader toggleUploader = {this.toggleUploader} changePic={this.props.changePic} />}
