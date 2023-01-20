@@ -37,7 +37,7 @@ export class Login extends Component {
             return res.json();
         })
         .then(data => {
-            if (data.success = false) {
+            if (data.success === false) {
                 this.setState({ errorMessage: "Sorry, something went wrong." })
             } else {
                 console.log(data); 

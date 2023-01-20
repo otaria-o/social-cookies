@@ -6,7 +6,7 @@ import { FindPeople } from "../findpeople/findpeople";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { OtherProfile } from "../otherprofile/otherprofile";
 import { Link } from "react-router-dom";
-// import { Friends } from "../friends/friends"
+import { Friends } from "../friends/friends"
 
 export class App extends Component {
     constructor(props) {
@@ -27,7 +27,6 @@ export class App extends Component {
 
     componentDidMount() {
         console.log("App mounted");
-        // fetch information from the server
         fetch("/user")
         .then(res => {
             return res.json();
@@ -85,7 +84,7 @@ export class App extends Component {
                 </div>
                 <nav className="nav">
                     <Link to="/people"><button>Meet people</button></Link>
-                    {/* <Link to="/myfriends"><button>Friends</button></Link> */}
+                    <Link to="/myfriends"><button>Friends</button></Link>
                     <Link to="/"><button>Edit your profile</button></Link>
                     <button onClick={this.logout}>Log out</button><br />
                 </nav>    
@@ -96,7 +95,7 @@ export class App extends Component {
                 <Routes>    
                     <Route path="/" element={<Profile first={this.state.firstname} last={this.state.lastname} bio={this.state.bio} changeBio={this.changeBio} pic={this.state.image} changePic={this.changePic}/>}></Route>
                     <Route path="/people" element={<FindPeople />}></Route>
-                    {/* <Route path="/myfriends" element={<Friends />}></Route> */}
+                    <Route path="/myfriends" element={<Friends id={this.state.id}/>}></Route>
                     <Route path="/otheruser/:otherUserId" element={<OtherProfile />}></Route>
                 </Routes>
             </main>

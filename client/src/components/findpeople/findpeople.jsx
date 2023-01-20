@@ -47,7 +47,7 @@ export function FindPeople ({ id }) {
                 
                 <div className="lastThree">
                     {newFinds.map((newFind) => (
-                    <div className="utente" key={newFind.id}>
+                    <div className="user" key={newFind.id}>
                         <div>
                         <Link to={`/otheruser/${newFind.id}`}> <img id={newFind.id} src={newFind.image} /></Link>
                         </div>

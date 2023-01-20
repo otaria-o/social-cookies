@@ -13,7 +13,7 @@ export function OtherProfile ({ }) {
     
     
     useEffect(() => {
-        // console.log("Other user Id", otherUserId);
+        // console.log("otherUserId", otherUserId);
         fetch(`/user/${otherUserId}`)
         .then(res => res.json())
         .then(user => {
@@ -26,7 +26,7 @@ export function OtherProfile ({ }) {
     },[])
 
     return ( <div>
-        <div>
+        <div className="profilebig">
             <img src={image} />
             <h2>{first} {last}</h2>
             <p>{bio}</p>

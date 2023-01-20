@@ -54,28 +54,6 @@ export function FriendButton ({ otherUserId }) {
         .then(friendship => {
             console.log("data della amicizia al bottone", friendship)
             
-            // a setFriendship will be useful in the onClick: depending on the friendship state it will return the new message
-            
-            //  if (friendship.buttonText === "End friendship" ) {
-            //     setMsgbutton("End friendship")
-            //     setFriendship("yes")
-            // }  
-            // else if(friendship.buttonText === "Make friend request") {
-            //     setMsgbutton("Make friend request")
-            //     setFriendship("not")
-            // } 
-            
-            //     else if (friendship.buttonText === "Cancel request" ) {
-            //         setMsgbutton("Cancel request")
-            //         setFriendship("pendentbysender_id")
-            //     } 
-                
-                    
-                    
-            //             else if (friendship.buttonText === "Accept friendship" ) {
-            //                 setMsgbutton("Accept friend request")
-            //                 setFriendship("pendentbyOtherUser")
-            //             }
             setFriendship(friendship.friendship)
             setMsgbutton(friendship.msgbutton)
             })

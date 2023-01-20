@@ -1,8 +1,12 @@
 
-
+exports.checkOnAutentication = function() {
+    if (!data.first || !data.last || !data.email || !data.password) {
+        return ({success: false})
+    } else {
+        console.log("okay")
+    }
+}
     exports.setFriendshipStatus = function(data) {
-        let friendship;
-        let userId;
         if (!data) {
             console.log("hallo")
             return friendship = "not"
@@ -21,7 +25,6 @@
   
 
     exports.setButtonText = function(friendship) {
-        let msgbutton;
         if (friendship = "not") {
             return msgbutton = "Make friend request"
         } else if (friendship = "yes") {
@@ -34,22 +37,22 @@
         }       
 
 
-exports.setFriendshipStatus = function(data) {
-switch (friendship) {
-    case !data :
-        return friendship = "not"
-        break;
-    case data.accepted === true :
-        return friendship = "yes"
-        break;
-    case data.sender_id === req.session.userId :
-        return friendship = "pendentbysender_id"
-        break;
-    case data.accepted === false :
-        return friendship = "pendentbyOtherUser"
-        break;
-}
-}
+// exports.setFriendshipStatus = function(data) {
+// switch (friendship) {
+//     case !data :
+//         return friendship = "not"
+//         break;
+//     case data.accepted === true :
+//         return friendship = "yes"
+//         break;
+//     case data.sender_id === req.session.userId :
+//         return friendship = "pendentbysender_id"
+//         break;
+//     case data.accepted === false :
+//         return friendship = "pendentbyOtherUser"
+//         break;
+// }
+// }
 
 
 

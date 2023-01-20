@@ -214,6 +214,7 @@ app.get("/user/id.json", function (req, res) {
     });
 });
 
+// profile componente
 app.get("/user", (req, res) => {
     getAllInfo(req.session.userId)
     .then(data => {
@@ -222,6 +223,7 @@ app.get("/user", (req, res) => {
     })
 })
 
+// get the last three registered users but not the current user
 app.get("/users", (req, res) => {
     getThree(req.session.userId)
     .then( data => {
@@ -234,6 +236,7 @@ app.get("/users", (req, res) => {
     })  
 })
 
+// get per la possibilitä di cercare utenti attraverso l'input field del find people component
 app.get("/search", (req, res) => {
     // console.log(req.query)
     getMatchingUsers(req.query.q, req.session.userId)
@@ -248,7 +251,7 @@ app.get("/search", (req, res) => {
 });
 
 
-
+// friendbutton
 app.get("/user/friend/:otherUserId", (req, res) => {
     // console.log("arriva al server l'altro user?", req.params.otherUserId)
     // console.log("arriva il corrente user?", req.session.userId)
@@ -281,39 +284,19 @@ app.get("/user/friend/:otherUserId", (req, res) => {
                     })
                     }
     }) 
-        // if the users are not in the table friendship
-    //     if (!data.rows[0]) {
-    //         console.log("array?", data.rows)
-    //         res.json({buttonText: "Make friend request"})
-
-    //     // if there is a friendship
-    //     } else if (data.rows[0].accepted === true) {
-    //         res.json({buttonText: "End friendship"})
-
-    //         // if there is a request by the current/loggedin user
-    //         } else if (data.rows[0].sender_id === req.session.userId) {
-    //         // && data.rows[0].recipient_id === otherUserId) {
-    //             res.json({buttonText: "Cancel request"})
-
-    //             // if the current/loggedin user is the recipient
-    //             } else if (data.rows[0].accepted === false) {
-    //                 // && data.rows[0].recipient_id === req.session.userId) {
-    //                 res.json({buttonText: "Accept friendship"})
-    //                 }
-
-    // })
     .catch(err => {
         console.log("error appeared for GET amicizia:", err);
         res.json({success: false})
     })        
 });
 
+// otherprofile component
 app.get("/user/:otherUserId", (req, res) => {
     console.log("arriva al server?", req.params.otherUserId )
     const otherUserId = req.params.otherUserId 
     getAllInfo(otherUserId)
     .then(data => {
-        console.log("data per OTHERPROFILE", data.rows)
+        // console.log("data per OTHERPROFILE", data.rows)
         // se non esiste l'utente mandare un success: false con messaggio utente non trovato o 404 o quel cavolo che voglio
 
         res.json(data.rows[0])
@@ -326,19 +309,27 @@ app.get("/user/:otherUserId", (req, res) => {
 
 app.get("/friends", (req, res) => {
     findFriendsOrWhoWantsToBe(req.session.userId)
-    .then(friends => {
-        console.log(data)
-        if (!friends.rows) {
+    .then(data => {
+        console.log(data.rows)
+        if (!data.rows) {
             res.json({success: false})
         } else {
-            const alreadyFriends = datas.filter(data => data.accepted = true)
-            const whoWantsToBe = datas.filter(data => accepted = false )
-        }
-        
-         
+            let results = data.rows
+            let friends = results.filter(result => result.accepted)
+            console.log("array friends", friends)
+            let almostFriends = results.filter(result => !result.accepted)
+            console.log("almostFriends", almostFriends)
+            // if (friends.length === 0) {
+            //     res.json({friends: "no friends"})
+            // } else if (!almostFriends) {
+            //     res.json({almostFriends: "no almostFriends"})
+            //     } else {
+                    res.json({friends: friends})
+                    res.json({almostFriends: almostFriends})
+        }    
     })
     .catch(err => {
-        console.log("error appeared for GET otherprofile:", err);
+        console.log("error appeared for GET FRIENDS PROFILE:", err);
         res.json({success: false})
     })   
 });
@@ -346,7 +337,6 @@ app.get("/friends", (req, res) => {
 app.get("*", function (req, res) {
     res.sendFile(path.join(__dirname, "..", "client", "index.html"));
 });
-
 
 app.listen(PORT, function () {
     console.log(`Express server listening on port ${PORT}`);

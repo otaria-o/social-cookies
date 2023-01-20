@@ -89,6 +89,7 @@ button {
     border: solid 2px brown;
 }
 
+/* profile and other profile components */
 
 .profilebig {
     padding-left: 40px;
@@ -102,28 +103,24 @@ button {
     padding: 20px;
 }
 
+/* find people component */
+
 .findpeople {
     padding: 40px;
 }
-
-
 
 .lastThree {
     display: flex;
     flex-direction: column;
 }
 
-:hover .lastThree img {
-    filter: opacity(80%);
-}
-
-.utente {
+.user {
     display: flex;
     flex-direction: row;
     padding: 30px;
 }
 
-.utente img {
+.user img {
     width: 150px;
     height: 200px;
     border-radius: 50%;
