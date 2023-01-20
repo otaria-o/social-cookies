@@ -1,30 +1,34 @@
 import { useState, useEffect } from 'react';
+import { FriendButton } from '../friendbutton/friendbutton';
 // import { OtherProfile } from "../otherprofile/otherprofile"
 import { Link } from 'react-router-dom';
 
 export function Friends ({ id }) {
 
-    // const { otherUserId } = useParams()
     const [ friends, setFriends ] = useState([])
     const [ almostFriends, setAlmostFriends ] = useState([])
-    // const [ first, setFirst ] = useState("")
-    // const [ last, setLast ] = useState("")
-    // const [ image, setImage ] = useState("")
-    // const [ bio, setBio ] = useState("")
     
-    
+    const handleClick = (evt) => {
+        evt.preventDefault()
+ 
+}
+   
+
     useEffect(() => {
         // console.log("otherUserId", otherUserId);
         fetch("/friends")
         .then(res => res.json())
         .then(data => {
-            console.log("arrivano gli array?", data),
-            setFriends(),
-            setAlmostFriends()
-            // setFirst(user.first),
-            // setLast(user.last),
-            // setBio(user.bio)
-            // setImage(user.image)
+            // Promise.all([
+            //     // console.log("arrivano gli array?", data),
+            //     setFriends(results.filter(result => result.accepted)),
+            //     // console.log("array friends", friends),
+            //     setAlmostFriends(results.filter(result => !result.accepted)),
+            //     console.log("almostFriends", almostFriends)
+            // ])
+            
+            setFriends(data.friends),
+            setAlmostFriends(data.almostFriends)
         })
     },[])
 
@@ -40,6 +44,7 @@ export function Friends ({ id }) {
                         <div>
                         <h3>{almostFriend.first} {almostFriend.last}</h3>
                         </div>
+                        <FriendButton otherUserId={almostFriend.id}/>
                     </div>))}
                 </div>
                 <h3>These peolpe are currently your friends</h3>
@@ -52,6 +57,7 @@ export function Friends ({ id }) {
                         <div>
                         <h3>{friend.first} {friend.last}</h3>
                         </div>
+                        <FriendButton otherUserId={friend.id}/>
                     </div>))}
                 </div>
         </div>

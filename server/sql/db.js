@@ -79,10 +79,9 @@ exports.cancelFriendship = function(user1, user2) {
 }
 
 exports.findFriendsOrWhoWantsToBe = function(id) {
-    return db.query(`SELECT * FROM users as u JOIN friendships as f ON 
+    return db.query(`SELECT u.id, u.first, u.last, u.image, f.recipient_id, f.sender_id, f.accepted FROM users as u JOIN friendships as f ON 
     ((f.sender_id = u.id) AND (recipient_id = $1) AND (accepted = FALSE))
     OR ((f.sender_id = u.id) AND (f.recipient_id = $1) AND (f.accepted = TRUE))
     OR ((f.recipient_id = u.id) AND (f.sender_id = $1) AND (f.accepted = true))
     ;`, [id])
 }
-// u.id, u.first, u.last, u.image

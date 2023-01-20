@@ -1,14 +1,11 @@
 import { useState, useEffect } from 'react';
-import { OtherProfile } from "../otherprofile/otherprofile"
 import { Link } from 'react-router-dom';
 
 export function FindPeople ({ id }) {
 
     const [ search, setSearch] = useState("")
     const [ newFinds, setFind ] = useState([])
-    // const [ otherprofile, setOtherprofile ] = useState(false)
     const [ errMessage, setErrmessage ] = useState("")
-    // const [ otherUserId, setOtherUserId ] = useState("")
 
     const handleFinds = (evt) => {
         setSearch(evt.target.value)     

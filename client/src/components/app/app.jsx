@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { OtherProfile } from "../otherprofile/otherprofile";
 import { Link } from "react-router-dom";
 import { Friends } from "../friends/friends"
+// import { Chat } from "../chat/chat"
 
 export class App extends Component {
     constructor(props) {
@@ -83,9 +84,10 @@ export class App extends Component {
                 <Logo /> 
                 </div>
                 <nav className="nav">
+                    <Link to="/"><button>Edit your profile</button></Link>
                     <Link to="/people"><button>Meet people</button></Link>
                     <Link to="/myfriends"><button>Friends</button></Link>
-                    <Link to="/"><button>Edit your profile</button></Link>
+                    {/* <Link to="/chat"><button>Chat</button></Link> */}
                     <button onClick={this.logout}>Log out</button><br />
                 </nav>    
                 <ProfilePic pic={this.state.image} changePic={this.changePic} />
@@ -97,6 +99,7 @@ export class App extends Component {
                     <Route path="/people" element={<FindPeople />}></Route>
                     <Route path="/myfriends" element={<Friends id={this.state.id}/>}></Route>
                     <Route path="/otheruser/:otherUserId" element={<OtherProfile />}></Route>
+                    {/* <Route path="/chat" element={<Chat />}></Route> */}
                 </Routes>
             </main>
             </BrowserRouter>

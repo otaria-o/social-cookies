@@ -21,7 +21,7 @@ export function FriendButton ({ otherUserId }) {
         })
         .then(res => res.json())
         .then(data => {
-            console.log("come va questa amicizia?", data)
+            // console.log("come va questa amicizia?", data)
             if (!data.rows[0]) {
                 console.log("hallo")
                 setFriendship("not")
@@ -30,7 +30,7 @@ export function FriendButton ({ otherUserId }) {
                 setFriendship("yes")
                 setMsgbutton("End friendship")
                 } else if (data.rows[0].recipient_id === otherUserId) {
-                    console.log("pending")
+                    // console.log("pending")
                     setFriendship("pendingbysender_id")
                     setMsgbutton("Cancel request")
                     } else if (data.rows[0].accepted === false) {
@@ -52,7 +52,7 @@ export function FriendButton ({ otherUserId }) {
         fetch(`/user/friend/${otherUserId}`)
         .then(res => res.json())
         .then(friendship => {
-            console.log("data della amicizia al bottone", friendship)
+            // console.log("data della amicizia al bottone", friendship)
             
             setFriendship(friendship.friendship)
             setMsgbutton(friendship.msgbutton)

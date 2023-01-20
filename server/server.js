@@ -258,7 +258,7 @@ app.get("/user/friend/:otherUserId", (req, res) => {
     const otherUserId = req.params.otherUserId 
     findFriendship(req.session.userId, otherUserId)
     .then(data => {
-        console.log("data per l'amicizia", data)
+        // console.log("data per l'amicizia", data)
 
         if (!data.rows[0]) {
             console.log("hallo")
@@ -307,6 +307,7 @@ app.get("/user/:otherUserId", (req, res) => {
     })   
 })
 
+// friends component
 app.get("/friends", (req, res) => {
     findFriendsOrWhoWantsToBe(req.session.userId)
     .then(data => {
@@ -324,9 +325,11 @@ app.get("/friends", (req, res) => {
             // } else if (!almostFriends) {
             //     res.json({almostFriends: "no almostFriends"})
             //     } else {
-                    res.json({friends: friends})
-                    res.json({almostFriends: almostFriends})
-        }    
+        
+                    res.json({friends, almostFriends })
+                    // res.json({almostFriends}) 
+                    // res.json(data.rows) 
+        }
     })
     .catch(err => {
         console.log("error appeared for GET FRIENDS PROFILE:", err);
