@@ -6,7 +6,6 @@ export function FriendButton ({ otherUserId }) {
     const [ friendship, setFriendship ] = useState("yes" || "not" || "pendingbysender_id" || "pendingbyOtherUser")
     const [ errMessage, setErrmessage ] = useState("")
 
-
     const handleClick = (evt) => {
         evt.preventDefault();
 

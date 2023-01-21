@@ -103,15 +103,10 @@ button {
     padding: 20px;
 }
 
-/* find people component */
+/* find people and friends component */
 
-.findpeople {
+.peopleorfriends {
     padding: 40px;
-}
-
-.lastThree {
-    display: flex;
-    flex-direction: column;
 }
 
 .user {

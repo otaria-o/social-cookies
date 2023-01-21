@@ -25,3 +25,10 @@ CREATE TABLE reset_codes(
     accepted BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE messages (
+    id SERIAL PRIMARY KEY,
+    sender_id INTEGER NOT NULL REFERENCES users(id),
+    message TEXT NOT NULL CHECK (message <> ''),
+    created_at TIMESTAMP DEFAULT current_timestamp
+);

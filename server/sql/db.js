@@ -65,18 +65,18 @@ exports.findFriendship = function(user1, user2) {
 
 exports.insertFriendship = function(user1, user2) {
     return db.query(`INSERT INTO friendships (sender_id, recipient_id) VALUES ($1, $2) RETURNING *;`, [user1, user2]);
-}
+};
 
 exports.updateFriendshipTrue = function(user1, user2) {
     return db.query(`UPDATE friendships SET accepted = TRUE WHERE (sender_id = $1 AND recipient_id = $2) OR (sender_id = $2 AND recipient_id = $1) RETURNING *;`, [user1, user2]);
-}
+};
 
 exports.cancelFriendship = function(user1, user2) {
     return db.query(`DELETE from friendships 
     WHERE (sender_id = $1 AND recipient_id = $2)
     OR (sender_id = $2 AND recipient_id = $1)
     ;`, [user1, user2])
-}
+};
 
 exports.findFriendsOrWhoWantsToBe = function(id) {
     return db.query(`SELECT u.id, u.first, u.last, u.image, f.recipient_id, f.sender_id, f.accepted FROM users as u JOIN friendships as f ON 
@@ -84,4 +84,23 @@ exports.findFriendsOrWhoWantsToBe = function(id) {
     OR ((f.sender_id = u.id) AND (f.recipient_id = $1) AND (f.accepted = TRUE))
     OR ((f.recipient_id = u.id) AND (f.sender_id = $1) AND (f.accepted = true))
     ;`, [id])
+};
+
+exports.getLatestMessages = () => {
+    return db.query( `
+        SELECT * FROM (
+            SELECT m.id, m.message, m.created_at,
+                u.first_name, u.last_name, u.profile_pic_url
+            FROM messages m
+            JOIN users u ON m.sender_id = u.id
+            ORDER BY m.created_at DESC
+            limit $1
+        ) as results ORDER BY created_at ASC
+    ;`);
+};
+
+exports.insertMessage = (senderId, message) => {
+    return db.query(`INSERT into messages (sender_id, message) VALUES ($1, $2) RETURNING *;`, [senderId, message]);
 }
+
+

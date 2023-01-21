@@ -15,7 +15,7 @@ app.use(cookieSession( {
 }));
 
 // connecting files
-const { addUser, checkEmail, insertCode, selectCode, updatePassword, updateImg, updateBio, getAllInfo, getThree, getMatchingUsers, findFriendship, cancelFriendship, insertFriendship, updateFriendshipTrue, findFriendsOrWhoWantsToBe } = require("./sql/db.js")
+const { addUser, checkEmail, insertCode, selectCode, updatePassword, updateImg, updateBio, getAllInfo, getThree, getMatchingUsers, findFriendship, cancelFriendship, insertFriendship, updateFriendshipTrue, findFriendsOrWhoWantsToBe, getLatestMessages } = require("./sql/db.js")
 const crypt = require("../bcrypt.js")
 const { uploader, fileUpload } = require("./uploads/upload.js")
 
@@ -103,22 +103,33 @@ app.post("/reset", (req, res) => {
 });
 
 app.post("/reset/pwd", (req, res) => {
-    selectCode(req.body.email)
+    checkEmail(req.body.email)
     .then(data => {
-        console.log("verifica il codice segreto", data)
-        if (data.rows.length >= 1) {
-            crypt.hash(req.body.password)
-            .then(newPwd => {
-                updatePassword(newPwd, req.body.email).then(data => {
-                    console.log("successo?", data)
-                   res.json({success: true})
-                })
+        if (data.rows.length === 1) {
+            selectCode(req.body.email)
+            .then(data => {
+                if (data.rows === 0) {
+                    res.json({success: false})
+                } else {
+                    console.log("verifica il codice segreto", data)
+                    for (i=0; i<data.rows.length; i++) {
+                        if (data.rows[i].code === req.body.code) {
+                            crypt.hash(req.body.password)
+                            .then(newPwd => {
+                                updatePassword(newPwd, req.body.email)
+                                .then(data => {
+                                console.log("successo?", data)
+                                res.json({success: true})
+                                })
+                            })
+                        }
+                    }
+                }
             })
-            
         } else {
-            res.json({success: false})
+            res.json({email: false})
         }
-    })  
+    }) 
     .catch(err => {
         console.log("error appeared for post req reset:", err);
         res.json({success: false})
@@ -296,10 +307,13 @@ app.get("/user/:otherUserId", (req, res) => {
     const otherUserId = req.params.otherUserId 
     getAllInfo(otherUserId)
     .then(data => {
-        // console.log("data per OTHERPROFILE", data.rows)
-        // se non esiste l'utente mandare un success: false con messaggio utente non trovato o 404 o quel cavolo che voglio
-
-        res.json(data.rows[0])
+        console.log("data per OTHERPROFILE", data.rows)
+        // se non esiste l'utente mandare un replace: true da gestire con messaggio utente non trovato
+        if (data.rows.length === 0) {
+            res.json({replace: true})
+        } else {
+            res.json(data.rows[0])
+            }   
     })
     .catch(err => {
         console.log("error appeared for GET otherprofile:", err);
@@ -317,18 +331,11 @@ app.get("/friends", (req, res) => {
         } else {
             let results = data.rows
             let friends = results.filter(result => result.accepted)
-            console.log("array friends", friends)
+            // console.log("array friends", friends)
             let almostFriends = results.filter(result => !result.accepted)
-            console.log("almostFriends", almostFriends)
-            // if (friends.length === 0) {
-            //     res.json({friends: "no friends"})
-            // } else if (!almostFriends) {
-            //     res.json({almostFriends: "no almostFriends"})
-            //     } else {
+            // console.log("almostFriends", almostFriends)
         
-                    res.json({friends, almostFriends })
-                    // res.json({almostFriends}) 
-                    // res.json(data.rows) 
+            res.json({friends, almostFriends }) 
         }
     })
     .catch(err => {

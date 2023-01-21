@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { useParams } from "react-router";
-import { Link } from 'react-router-dom';
 import { FriendButton } from "../friendbutton/friendbutton";
 
 export function OtherProfile ({ }) {
@@ -10,6 +9,7 @@ export function OtherProfile ({ }) {
     const [ last, setLast ] = useState("")
     const [ image, setImage ] = useState("")
     const [ bio, setBio ] = useState("")
+    const [ errMessage, setErrmessage ] = useState("")
     
     
     useEffect(() => {
@@ -18,21 +18,29 @@ export function OtherProfile ({ }) {
         .then(res => res.json())
         .then(user => {
             // console.log("data dello user clickato", user)
-            setFirst(user.first),
-            setLast(user.last),
-            setBio(user.bio)
-            setImage(user.image)
+            if (user.replace === true) {
+                setErrmessage("User not found")
+            } else {
+                setFirst(user.first),
+                setLast(user.last),
+                setBio(user.bio)
+                setImage(user.image)
+                setErrmessage("")
+                }    
         })
     },[])
 
     return ( <div>
+        <p className="error">{errMessage}</p>
+
+        { errMessage === "" &&
         <div className="profilebig">
             <img src={image} />
             <h2>{first} {last}</h2>
             <p>{bio}</p>
-            <FriendButton otherUserId={otherUserId}/>
-            <Link to="/people"><button>back</button></Link>
-    </div>
+            <FriendButton otherUserId={otherUserId}/>         
+        </div> 
+        }
     </div>)
 
 

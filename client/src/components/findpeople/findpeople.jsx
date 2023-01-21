@@ -35,14 +35,14 @@ export function FindPeople ({ id }) {
     }, [])
 
     return ( 
-        <div className="findpeople">
+        <div className="peopleorfriends">
             <h2>Find people</h2>
             <br />
                 <p>Are you looking for someone?</p>
                 <input type="text" value={search} onChange={handleFinds} />
                 <p className="error">{errMessage}</p>
                 
-                <div className="lastThree">
+                <div>
                     {newFinds.map((newFind) => (
                     <div className="user" key={newFind.id}>
                         <div>
