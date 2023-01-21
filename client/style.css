@@ -68,10 +68,6 @@ button {
     border: 2px solid brown;
 }
 
-.nav {
-    width: 300px;
-}
-
 .pic {
     display: flex;
 }

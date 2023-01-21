@@ -88,7 +88,7 @@ export class App extends Component {
                     <Link to="/people"><button>Meet people</button></Link>
                     <Link to="/myfriends"><button>Friends</button></Link>
                     {/* <Link to="/chat"><button>Chat</button></Link> */}
-                    <button onClick={this.logout}>Log out</button><br />
+                    <button onClick={this.logout}>Log out</button>
                 </nav>    
                 <ProfilePic pic={this.state.image} changePic={this.changePic} />
             </header>

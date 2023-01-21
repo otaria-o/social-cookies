@@ -31,7 +31,7 @@ export function OtherProfile ({ }) {
     },[])
 
     return ( <div>
-        <p className="error">{errMessage}</p>
+        <h3 className="error">{errMessage}</h3>
 
         { errMessage === "" &&
         <div className="profilebig">

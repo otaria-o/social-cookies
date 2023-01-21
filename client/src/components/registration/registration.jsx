@@ -46,14 +46,14 @@ export class Registration extends Component {
         .then(data => {
             console.log(data.success); 
             if (!data.success) {
-                this.setState({ errorMessage: "Sorry, something went wrong. Fill up all the fields, please." })
-            } else {
-                location.assign("/")
-            }
+                this.setState({ errorMessage: "Fill up all the fields, please." })
+                } else {
+                    location.assign("/")
+                    }
         })
         .catch(err => {
             console.log("errore nella fetch!!", err)
-            this.setState({ errorMessage: "Sorry, something went wrong. Fill up all the fields, please." })
+            this.setState({ errorMessage: "Sorry, something went wrong." })
         })
     }
 

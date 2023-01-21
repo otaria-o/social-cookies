@@ -29,7 +29,7 @@ export function FindPeople ({ id }) {
         fetch("/users")
         .then(res => res.json())
         .then(newFinds => {
-            console.log("qui check", newFinds)
+            // console.log("qui check", newFinds)
             setFind(newFinds)
         })
     }, [])

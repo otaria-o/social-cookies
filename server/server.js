@@ -5,6 +5,11 @@ const path = require("path");
 const { PORT = 3001 } = process.env;
 const cookieSession = require("cookie-session");
 const cryptoRandomString = require("crypto-random-string");
+const server = require('http').Server(app);
+const io = require('socket.io')(server, {
+    allowRequest: (req, callback) =>
+        callback(null, req.headers.referer.startsWith("http://localhost:3000"))
+});
 
 app.use(compression());
 app.use(express.json());
@@ -13,6 +18,10 @@ app.use(cookieSession( {
     secret: `music will be the answer`,
     maxAge: 1000 * 60 * 60 * 24 * 14
 }));
+// app.use(cookieSessionMiddleware);
+// io.use(function(socket, next) {
+//     cookieSessionMiddleware(socket.request, socket.request.res, next);
+// });
 
 // connecting files
 const { addUser, checkEmail, insertCode, selectCode, updatePassword, updateImg, updateBio, getAllInfo, getThree, getMatchingUsers, findFriendship, cancelFriendship, insertFriendship, updateFriendshipTrue, findFriendsOrWhoWantsToBe, getLatestMessages } = require("./sql/db.js")
@@ -33,21 +42,25 @@ app.use((req, res, next) => {
 // POST
 app.post("/register", (req, res) => {
     // add check in order to not to have empty input
-    crypt.hash(req.body.password)
-    .then(hashedPsw => {
+    if (req.body.firstname === "" || req.body.lastname === "" || req.body.email === "" || req.body.password === "") {
+        res.json({success: false})
+    } else {
+        crypt.hash(req.body.password)
+        .then(hashedPsw => {
         console.log(hashedPsw)
         return addUser(req.body.firstname, req.body.lastname, req.body.email, hashedPsw)
-    })
-    .then(data => {
+        })
+        .then(data => {
         console.log("data", data)
         req.session.userId = data.rows[0].id
         console.log("stanno funzionando i biscotti?", req.session.userId)
         res.json({success: true})
-    })
+        })
     .catch(err => {
         console.log("error appeared for post req register:", err);
         res.json({success: false})
         })
+    }
 });
 
 app.post("/login", (req, res) => {
@@ -112,8 +125,8 @@ app.post("/reset/pwd", (req, res) => {
                     res.json({success: false})
                 } else {
                     console.log("verifica il codice segreto", data)
-                    for (i=0; i<data.rows.length; i++) {
-                        if (data.rows[i].code === req.body.code) {
+                    // for (i=0; i<data.rows.length; i++) {
+                    //     if (data.rows[i].code === req.body.code) {
                             crypt.hash(req.body.password)
                             .then(newPwd => {
                                 updatePassword(newPwd, req.body.email)
@@ -123,11 +136,11 @@ app.post("/reset/pwd", (req, res) => {
                                 })
                             })
                         }
-                    }
-                }
+                //     }
+                // }
             })
         } else {
-            res.json({email: false})
+            res.json({success: false})
         }
     }) 
     .catch(err => {
@@ -208,7 +221,6 @@ app.post("/user/friendrequest/:otherUserId", (req, res) => {
             })  
         }
 })
-
 
 app.post("/logout", (req,res) => {
     req.session.userId = null
@@ -348,9 +360,44 @@ app.get("*", function (req, res) {
     res.sendFile(path.join(__dirname, "..", "client", "index.html"));
 });
 
-app.listen(PORT, function () {
+server.listen(PORT, function () {
     console.log(`Express server listening on port ${PORT}`);
 });
 
 
+// SOCKET
 
+// io.on("connection", async (socket) => {
+//     console.log("[social:socket] incoming socket connection", socket.id);
+//     const { userId } = socket.request.session;
+//     if (!userId) {
+//         return socket.disconnect(true);
+//     } else {
+//     // retrieve the latest 10 messages
+//     const latestMessages = getLatestMessages()
+//     .then(messages => {
+//         res.json(messages)
+//     });
+//     // and send them to the client who has just connected
+//     socket.emit('chatMessages', [
+//         {
+//             text: 'A first message'
+//         },
+//         {
+//             text: 'A second message'
+//         }
+//     ]);
+
+//     // listen for when the connected user sends a message
+//     socket.on('chatMessage', (text) => {
+//        // store the message in the db
+//        const newMessage = ...
+
+//        // then broadcast the message to all connected users (included the sender!)
+//        // hint: you need the sender info (name, picture...) as well
+//        // how can you retrieve it?
+//        io.emit('chatMessage', ...);
+//     });
+//     }
+
+// });
