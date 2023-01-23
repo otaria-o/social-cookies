@@ -55,6 +55,7 @@ exports.getMatchingUsers = function(val, id) {
     return db.query(`SELECT * FROM users WHERE id != $2 AND (first ILIKE $1 OR last ILIKE $1) LIMIT 5;`, [val + '%', id]);
 }
 
+//
 exports.findFriendship = function(user1, user2) {
     return db.query(`
         SELECT * FROM friendships
@@ -63,14 +64,17 @@ exports.findFriendship = function(user1, user2) {
     ;`, [user1, user2]);
 };
 
+// insert in friendships table
 exports.insertFriendship = function(user1, user2) {
     return db.query(`INSERT INTO friendships (sender_id, recipient_id) VALUES ($1, $2) RETURNING *;`, [user1, user2]);
 };
 
+// friendbutton component - update a friendship from f to t  
 exports.updateFriendshipTrue = function(user1, user2) {
     return db.query(`UPDATE friendships SET accepted = TRUE WHERE (sender_id = $1 AND recipient_id = $2) OR (sender_id = $2 AND recipient_id = $1) RETURNING *;`, [user1, user2]);
 };
 
+// friendbutton component - when someone end a friendship
 exports.cancelFriendship = function(user1, user2) {
     return db.query(`DELETE from friendships 
     WHERE (sender_id = $1 AND recipient_id = $2)

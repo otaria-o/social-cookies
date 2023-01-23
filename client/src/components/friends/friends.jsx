@@ -1,20 +1,26 @@
 import { useState, useEffect } from 'react';
 import { OtherProfile } from "../otherprofile/otherprofile"
-import { FriendButton } from '../friendbutton/friendbutton';
+import { FriendButton } from "../friendbutton/friendbutton";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { setAllFriends } from "../../redux/friends.slice"
 
 export function Friends ({ }) {
 
-    const [ friends, setFriends ] = useState([])
-    const [ almostFriends, setAlmostFriends ] = useState([])
+    const dispatch = useDispatch();
+    const allFriends = useSelector((store) => store.allFriends);
     
+    const friends = allFriends.filter(allFriend => allFriend.accepted)
+    const almostFriends = allFriends.filter(allFriend => !allFriend.accepted)
+
     useEffect(() => {
         fetch("/friends")
         .then(res => res.json())
-        .then(data => {   
-            setFriends(data.friends),
-            setAlmostFriends(data.almostFriends)
-        })
+        .then(allFriends => {   
+            console.log("dove sono i miei amici?", allFriends)
+            dispatch(setAllFriends(allFriends))
+        })    
     },[])
 
     return ( 
@@ -31,7 +37,7 @@ export function Friends ({ }) {
                         <div>
                         <h3>{almostFriend.first} {almostFriend.last}</h3>
                         </div> 
-                        {/* <FriendButton otherUserId={almostFriend.id}/> */}
+                        <FriendButton otherUserId={almostFriend.id}/>
                     </div>))}                
                 </div> 
             </div>}
@@ -47,7 +53,7 @@ export function Friends ({ }) {
                         <div>
                         <h3>{friend.first} {friend.last}</h3>
                         </div>
-                        {/* <FriendButton otherUserId={friend.id}/> */}
+                        <FriendButton otherUserId={friend.id}/>
                     </div>))}
                 </div> 
             </div>}

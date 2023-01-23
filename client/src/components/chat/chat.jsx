@@ -1,8 +1,8 @@
 // import { useSelector } from "react-redux";
 // import { useState, useEffect } from "react";
-// import { socket } from "../socket";
+// import { socket } from "../../socket";
 
-// export default function Chat() {
+// export function Chat() {
 //     const messages = useSelector((state) => state.messages);
 //     const [message, setMessage] = useState("");
 
@@ -16,15 +16,14 @@
 //     };
 
 //     const onMessageChange = (e) => {
-//         // 1. get the text from e.currentTarget.value
-//         // 2. update the message state (in this component only)
+//         setMessage(e.currentTarget.value)
 //     }
 
-//     // ...
+//     setMessages(
+//         socket.on("chatMessages", )
+//     )
 
-//     return ( 
-//         // ... a list of all messages
-//         // an input for user to type a new message
+//     return ( <div>
 //         <div className="new-message">
 //             <textarea
 //                 name="message"
@@ -34,5 +33,13 @@
 //                 value={message}
 //             ></textarea>
 //         </div>
+//         <div>
+//         {messages.map((message) => (
+//         <div key={sender_id}>
+//             <p>{message}</p>
+//             <p><b>{almostFriend.first}</b> {created_at}</p>
+//         </div> ))} 
+//         </div>              
+//     </div>
 //     )
 // }

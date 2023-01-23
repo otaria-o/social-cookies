@@ -5,7 +5,7 @@
 const RECENT_MESSAGES_RECEIVED = "/messages/recent-received";
 const SINGLE_MESSAGE_RECEIVED = "/messages/single-received";
 
-export default function messagesReducer(messages = [], action) {
+export function messagesReducer(messages = [], action) {
     switch (action.type) {
         case RECENT_MESSAGES_RECEIVED:
             return action.payload.messages;
@@ -29,4 +29,5 @@ export function singleMessageReceived(message) {
         payload: { message },
     };
 }
+
 

@@ -341,13 +341,14 @@ app.get("/friends", (req, res) => {
         if (!data.rows) {
             res.json({success: false})
         } else {
-            let results = data.rows
-            let friends = results.filter(result => result.accepted)
-            // console.log("array friends", friends)
-            let almostFriends = results.filter(result => !result.accepted)
-            // console.log("almostFriends", almostFriends)
+            // let results = data.rows
+            // let friends = results.filter(result => result.accepted)
+            // // console.log("array friends", friends)
+            // let almostFriends = results.filter(result => !result.accepted)
+            // // console.log("almostFriends", almostFriends)
         
-            res.json({friends, almostFriends }) 
+            // res.json({friends, almostFriends }) 
+            res.json(data.rows)
         }
     })
     .catch(err => {
@@ -373,23 +374,20 @@ server.listen(PORT, function () {
 //     if (!userId) {
 //         return socket.disconnect(true);
 //     } else {
+//         console.log("new connection")
 //     // retrieve the latest 10 messages
-//     const latestMessages = getLatestMessages()
-//     .then(messages => {
-//         res.json(messages)
-//     });
-//     // and send them to the client who has just connected
-//     socket.emit('chatMessages', [
-//         {
-//             text: 'A first message'
-//         },
-//         {
-//             text: 'A second message'
-//         }
-//     ]);
+//         const latestMessages = getLatestMessages()
+//         .then(messages => {
+//             console.log(messages)
+//             // and send them to the client who has just connected
+//             socket.emit("chatMessages", [ messages ]); 
+//         })
+//     }
+// });
+   
 
 //     // listen for when the connected user sends a message
-//     socket.on('chatMessage', (text) => {
+//     socket.on("chatMessage", (text) => {
 //        // store the message in the db
 //        const newMessage = ...
 
