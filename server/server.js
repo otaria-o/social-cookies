@@ -66,6 +66,7 @@ app.post("/register", (req, res) => {
 app.post("/login", (req, res) => {
     checkEmail(req.body.email)
     .then(data => {
+        console.log(data)
         if (data.rows.length === 1) {
             console.log("email", data.rows[0].email)
             console.log("password", data.rows[0].password)
@@ -93,21 +94,19 @@ app.post("/reset", (req, res) => {
     console.log("req body ho dimenticato la psw", req.body)
     checkEmail(req.body.email)
     .then(data => {
+        console.log(data.rows)
         if (data.rows.length === 1) {
-            console.log("email", data.rows[0].email)
+            console.log("email", data.rows)
             const secretCode = cryptoRandomString({
             length: 6
             })
             insertCode(secretCode, data.rows[0].email)
             console.log("code", secretCode)
             console.log("email", data.rows[0].email)
+            res.json({success: true})
         }  else {
-            req.json({success:false})
+            res.json({success:false})
         }
-    })
-    .then(data => {
-        console.log(data)
-        res.json({success: true})
     })
     .catch(err => {
         console.log("error appeared for post req reset:", err);
@@ -121,23 +120,24 @@ app.post("/reset/pwd", (req, res) => {
         if (data.rows.length === 1) {
             selectCode(req.body.email)
             .then(data => {
-                if (data.rows === 0) {
+                console.log("codice?", data.rows)
+                if (data.rows.length === 0) {
+                    res.json({success: false})
+                } else if (data.rows[0].code !== req.body.code) {
                     res.json({success: false})
                 } else {
                     console.log("verifica il codice segreto", data)
                     // for (i=0; i<data.rows.length; i++) {
                     //     if (data.rows[i].code === req.body.code) {
-                            crypt.hash(req.body.password)
-                            .then(newPwd => {
-                                updatePassword(newPwd, req.body.email)
-                                .then(data => {
-                                console.log("successo?", data)
-                                res.json({success: true})
-                                })
+                    crypt.hash(req.body.password)
+                    .then(newPwd => {
+                        updatePassword(newPwd, req.body.email)
+                        .then(data => {
+                            console.log("successo?", data)
+                            res.json({success: true})
                             })
-                        }
-                //     }
-                // }
+                        })
+                    }
             })
         } else {
             res.json({success: false})

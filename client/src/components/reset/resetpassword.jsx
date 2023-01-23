@@ -76,7 +76,7 @@ export class ResetPassword extends Component {
                 .then(data => {
                     // console.log("ciaooooooo", data); 
                     if (data.success === false) {
-                        this.setState({ errorMessage: "Something went wrong, try again."}); 
+                        this.setState({ errorMessage: "Something went wrong."}); 
                         this.setState({ step: "2" });   
                     } else {
                         this.setState({ step: "3" });

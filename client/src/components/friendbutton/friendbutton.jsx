@@ -1,7 +1,13 @@
 import { useState, useEffect } from 'react';
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { setAllFriends } from "../../redux/friends.slice"
 
 export function FriendButton ({ otherUserId }) {
 
+    const dispatch = useDispatch();
+    const allFriends = useSelector((store) => store.allFriends);
+    
     const [ msgbutton, setMsgbutton ] = useState("Make friend request" || "End friendship" || "Cancel request" || "Accept friend request")
     const [ friendship, setFriendship ] = useState("yes" || "not" || "pendingbysender_id" || "pendingbyOtherUser")
     const [ errMessage, setErrmessage ] = useState("")
@@ -25,16 +31,20 @@ export function FriendButton ({ otherUserId }) {
                 console.log("hallo")
                 setFriendship("not")
                 setMsgbutton("Make friend request")
+                //
             } else if (data.rows[0].accepted === true) {
                 setFriendship("yes")
                 setMsgbutton("End friendship")
+                //
                 } else if (data.rows[0].recipient_id === otherUserId) {
                     // console.log("pending")
                     setFriendship("pendingbysender_id")
                     setMsgbutton("Cancel request")
+                    //
                     } else if (data.rows[0].accepted === false) {
                         setFriendship("pendingbyOtherUser")
                         setMsgbutton("Accept friend request")
+                        //
                         } else if (!result.success) {
                             // ritorna il messaggio di errore
                             setErrmessage("Sorry, something went wrong, try again later.")    

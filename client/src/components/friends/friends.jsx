@@ -34,11 +34,11 @@ export function Friends ({ }) {
                         <div>
                         <Link to={`/otheruser/${almostFriend.id}`}><img src={almostFriend.image} /></Link>
                         </div>
-                        <div>
+                        <div className="dati">
                         <h3>{almostFriend.first} {almostFriend.last}</h3>
-                        </div> 
                         <FriendButton otherUserId={almostFriend.id}/>
-                    </div>))}                
+                        </div>     
+                    </div>))}                   
                 </div> 
             </div>}
             { friends.length > 0 && 
@@ -50,10 +50,10 @@ export function Friends ({ }) {
                         <div>
                         <Link to={`/otheruser/${friend.id}`}><img src={friend.image} /></Link>
                         </div>
-                        <div>
+                        <div className="dati">
                         <h3>{friend.first} {friend.last}</h3>
-                        </div>
                         <FriendButton otherUserId={friend.id}/>
+                        </div> 
                     </div>))}
                 </div> 
             </div>}

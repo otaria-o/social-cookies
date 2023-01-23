@@ -81,7 +81,7 @@ export class App extends Component {
         <BrowserRouter>
             <header className="header">
                 <div className="logopiccolo">
-                <Logo /> 
+                <Link to="/"><Logo /></Link>
                 </div>
                 <nav className="nav">
                     <Link to="/"><button>Your profile</button></Link>

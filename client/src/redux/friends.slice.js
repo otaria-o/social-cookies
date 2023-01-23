@@ -20,6 +20,7 @@ export function friendsReducer(allFriends = [], action) {
 };
     
 // ACTIONS:
+
 // export function setFriends(friends) {
 //     console.log("I am setFriends:", friends);
 //     return {
@@ -41,3 +42,11 @@ export function setAllFriends(allFriends) {
         payload: { allFriends },
     }
 };
+
+export function removeFriend(user) {
+    return {
+        type: "remove-friend",
+        payload: { }
+    }
+}
+
