@@ -8,9 +8,6 @@ export function FriendButton ({ otherUserId }) {
     // const dispatch = useDispatch();
     // const allFriends = useSelector((store) => store.allFriends);
 
-    // let msgbutton = "Make friend request" || "End friendship" || "Cancel request" || "Accept friend request"
-    // let friendship = "yes" || "not" || "pendingbysender_id" || "pendingbyOtherUser"
-    // let errmessage = ""
     const [ msgbutton, setMsgbutton ] = useState("Make friend request" || "End friendship" || "Cancel request" || "Accept friend request")
     const [ friendship, setFriendship ] = useState("yes" || "not" || "pendingbysender_id" || "pendingbyOtherUser")
     const [ errMessage, setErrmessage ] = useState("")
@@ -65,7 +62,6 @@ export function FriendButton ({ otherUserId }) {
         .then(res => res.json())
         .then(friendship => {
             // console.log("data della amicizia al bottone", friendship)
-            
             setFriendship(friendship.friendship)
             setMsgbutton(friendship.msgbutton)
             })

@@ -51,7 +51,7 @@ app.post("/register", (req, res) => {
         return addUser(req.body.firstname, req.body.lastname, req.body.email, hashedPsw)
         })
         .then(data => {
-        console.log("data", data)
+        // console.log("data", data)
         req.session.userId = data.rows[0].id
         console.log("stanno funzionando i biscotti?", req.session.userId)
         res.json({success: true})
@@ -66,7 +66,7 @@ app.post("/register", (req, res) => {
 app.post("/login", (req, res) => {
     checkEmail(req.body.email)
     .then(data => {
-        console.log(data)
+        // console.log(data)
         if (data.rows.length === 1) {
             console.log("email", data.rows[0].email)
             console.log("password", data.rows[0].password)
@@ -94,7 +94,7 @@ app.post("/reset", (req, res) => {
     console.log("req body ho dimenticato la psw", req.body)
     checkEmail(req.body.email)
     .then(data => {
-        console.log(data.rows)
+        // console.log(data.rows)
         if (data.rows.length === 1) {
             console.log("email", data.rows)
             const secretCode = cryptoRandomString({
@@ -155,7 +155,7 @@ app.post("/upload", uploader.single("pic"), fileUpload, (req, res) => {
         const url = res.locals.fileUrl;
         updateImg(url, req.session.userId)
         .then(data => {
-            console.log("devo estrarre il link della foto", data.rows)
+            // console.log("devo estrarre il link della foto", data.rows)
             res.json(data)        
         }) 
         .catch(err => {
@@ -165,7 +165,7 @@ app.post("/upload", uploader.single("pic"), fileUpload, (req, res) => {
 });
 
 app.post("/bio", (req, res) => {
-    console.log("corpo di mille balene", req.body)
+    // console.log("corpo di mille balene", req.body)
     updateBio(req.body.bio, req.session.userId)
     .then(data => {
         console.log("data dal server", data)
@@ -187,7 +187,7 @@ app.post("/user/friendrequest/:otherUserId", (req, res) => {
     if (req.body.friendship === "yes" || req.body.friendship === "pendingbysender_id") {
         cancelFriendship(req.session.userId, otherUserId)
         .then(result => {
-            console.log(result)
+            // console.log(result)
             res.json(result)
         })    
         .catch(err => {
@@ -200,7 +200,7 @@ app.post("/user/friendrequest/:otherUserId", (req, res) => {
     else if (req.body.friendship === "not") {
         insertFriendship(req.session.userId, otherUserId) 
         .then(result => {
-            console.log(result)
+            // console.log(result)
             res.json(result)
         })
         .catch(err => {
@@ -224,7 +224,7 @@ app.post("/user/friendrequest/:otherUserId", (req, res) => {
 
 app.post("/logout", (req,res) => {
     req.session.userId = null
-    console.log("sei stato loggato fuori")
+    // console.log("sei stato loggato fuori")
     res.json({success: true})
 });
 
@@ -241,7 +241,7 @@ app.get("/user/id.json", function (req, res) {
 app.get("/user", (req, res) => {
     getAllInfo(req.session.userId)
     .then(data => {
-        console.log("getAllInfo", data.rows[0])
+        // console.log("getAllInfo", data.rows[0])
         res.json(data.rows[0])
     })
 })
@@ -284,7 +284,7 @@ app.get("/user/friend/:otherUserId", (req, res) => {
         // console.log("data per l'amicizia", data)
 
         if (!data.rows[0]) {
-            console.log("hallo")
+            // console.log("hallo")
             res.json({
                 friendship : "not",
                 msgbutton : "Make friend request"
@@ -295,7 +295,7 @@ app.get("/user/friend/:otherUserId", (req, res) => {
                     msgbutton : "End friendship"
                 })
                 } else if (data.rows[0].sender_id === req.session.userId) {
-                console.log("pending")
+                // console.log("pending")
                 res.json({
                     friendship : "pendingbysender_id",
                     msgbutton : "Cancel request"    
@@ -319,7 +319,7 @@ app.get("/user/:otherUserId", (req, res) => {
     const otherUserId = req.params.otherUserId 
     getAllInfo(otherUserId)
     .then(data => {
-        console.log("data per OTHERPROFILE", data.rows)
+        // console.log("data per OTHERPROFILE", data.rows)
         // se non esiste l'utente mandare un replace: true da gestire con messaggio utente non trovato
         if (data.rows.length === 0) {
             res.json({replace: true})
@@ -337,17 +337,10 @@ app.get("/user/:otherUserId", (req, res) => {
 app.get("/friends", (req, res) => {
     findFriendsOrWhoWantsToBe(req.session.userId)
     .then(data => {
-        console.log(data.rows)
+        // console.log(data.rows)
         if (!data.rows) {
             res.json({success: false})
         } else {
-            // let results = data.rows
-            // let friends = results.filter(result => result.accepted)
-            // // console.log("array friends", friends)
-            // let almostFriends = results.filter(result => !result.accepted)
-            // // console.log("almostFriends", almostFriends)
-        
-            // res.json({friends, almostFriends }) 
             res.json(data.rows)
         }
     })
@@ -355,14 +348,6 @@ app.get("/friends", (req, res) => {
         console.log("error appeared for GET FRIENDS PROFILE:", err);
         res.json({success: false})
     })   
-});
-
-app.get("*", function (req, res) {
-    res.sendFile(path.join(__dirname, "..", "client", "index.html"));
-});
-
-server.listen(PORT, function () {
-    console.log(`Express server listening on port ${PORT}`);
 });
 
 
@@ -374,9 +359,8 @@ io.on("connection", async (socket) => {
     if (!userId) {
         return socket.disconnect(true);
     } else {
-
         console.log("new connection", userId)
-    // retrieve the latest 10 messages
+        // retrieve the latest 10 messages
         const latestMessages = getLatestMessages()
         .then(messages => {
             console.log(messages)
@@ -397,3 +381,11 @@ io.on("connection", async (socket) => {
     });
 });
 
+
+app.get("*", function (req, res) {
+    res.sendFile(path.join(__dirname, "..", "client", "index.html"));
+});
+
+server.listen(PORT, function () {
+    console.log(`Express server listening on port ${PORT}`);
+});

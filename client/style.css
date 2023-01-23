@@ -123,3 +123,22 @@ button {
     display: flex;
     flex-direction: column;;
 }
+
+/* chat component */
+
+.chat {
+    padding: 20px;
+}
+
+.msg {
+    display: flex;
+    /* padding: 20px; */
+    border: 2px solid black;
+}
+
+.msg img {
+    width: 60px;
+    height: 80px;
+    padding: 5px;
+    border-radius: 50%; 
+}
