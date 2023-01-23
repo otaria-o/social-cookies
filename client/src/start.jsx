@@ -28,11 +28,11 @@ fetch("/user/id.json")
         }
     });
 
-// fetch("/user/id.json")
-//     .then((response) => response.json())
-//     .then((data) => {
-//         if (data.userId) {
-//             initSocket(store);
-//         console.log("hi")
-//     }
-//         })
+fetch("/user/id.json")
+    .then((response) => response.json())
+    .then((data) => {
+        if (data.userId) {
+            initSocket(store);
+        console.log("hi")
+    }
+        })

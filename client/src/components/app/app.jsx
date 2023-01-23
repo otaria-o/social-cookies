@@ -99,7 +99,7 @@ export class App extends Component {
                     <Route path="/people" element={<FindPeople />}></Route>
                     <Route path="/myfriends" element={<Friends id={this.state.id}/>}></Route>
                     <Route path="/otheruser/:otherUserId" element={<OtherProfile />}></Route>
-                    {/* <Route path="/chat" element={<Chat />}></Route> */}
+                    <Route path="/chat" element={<Chat />}></Route>
                 </Routes>
             </main>
             </BrowserRouter>

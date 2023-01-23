@@ -22,7 +22,7 @@
 
 //     // I receive a single message when someone has sent it to the server
 //     socket.on("chatMessage", (data) => {
-//         const action = singleMessageReceived(data.message);
-//         store.dispatch(action);
+//         // const action = singleMessageReceived(data.message);
+//         // store.dispatch(action);
 //     });
 // };

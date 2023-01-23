@@ -1,40 +1,21 @@
 // REDUCER
 
-// export function friendsReducer(allFriends = [], action) {
-//     console.log("friendsReducer action",action.action)
-//     console.log("friendsReducer payload",action.payload)
-//     switch (action.type) {
-//         case "set-friends":
-//             return action.payload.friends;
-//         case "set-almostfriends":
-//             return action.payload.almostFriends;
-//     } 
-//     return allFriends;
-// }
-
 export function friendsReducer(allFriends = [], action) {
-    if (action.type === "set-all-friends") {
-        return action.payload.allFriends
+    switch (action.type) {
+     case "set-all-friends": 
+        return action.payload.allFriends;
+    case "remove-friend":
+        return allFriends.filter((allFriend) => { 
+            if (action.payload.id !== allFriend.id) { 
+                return allFriends } 
+            })
+    case "add-friend":
+        return [...allFriends, action.payload.id];
     }
     return allFriends
 };
     
 // ACTIONS:
-
-// export function setFriends(friends) {
-//     console.log("I am setFriends:", friends);
-//     return {
-//         type: "set-friends",
-//         payload: { friends },
-//     };
-// }
-
-// export function setAlmostFriends(almostFriends) {
-//     return {
-//         type: "set-almostfriends",
-//         payload: { almostFriends },
-//     };
-// };
 
 export function setAllFriends(allFriends) {
     return {
@@ -43,10 +24,16 @@ export function setAllFriends(allFriends) {
     }
 };
 
-export function removeFriend(user) {
+export function removeFriend() {
     return {
         type: "remove-friend",
-        payload: { }
+        payload: {  }
     }
 }
 
+export function addFriend(otherUserId) {
+    return {
+        type: "add-friend",
+        payload: { otherUserId }
+    }
+}

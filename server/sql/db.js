@@ -94,11 +94,11 @@ exports.getLatestMessages = () => {
     return db.query( `
         SELECT * FROM (
             SELECT m.id, m.message, m.created_at,
-                u.first_name, u.last_name, u.profile_pic_url
+                u.first, u.last, u.image 
             FROM messages m
             JOIN users u ON m.sender_id = u.id
             ORDER BY m.created_at DESC
-            limit $1
+            limit 10
         ) as results ORDER BY created_at ASC
     ;`);
 };

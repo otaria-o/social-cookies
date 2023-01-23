@@ -14,17 +14,17 @@ const io = require('socket.io')(server, {
 app.use(compression());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "..", "client", "public")));
-app.use(cookieSession( {
+const cookieSessionMiddleware = cookieSession({
     secret: `music will be the answer`,
     maxAge: 1000 * 60 * 60 * 24 * 14
-}));
-// app.use(cookieSessionMiddleware);
-// io.use(function(socket, next) {
-//     cookieSessionMiddleware(socket.request, socket.request.res, next);
-// });
+});
+app.use(cookieSessionMiddleware);
+io.use(function(socket, next) {
+    cookieSessionMiddleware(socket.request, socket.request.res, next);
+});
 
 // connecting files
-const { addUser, checkEmail, insertCode, selectCode, updatePassword, updateImg, updateBio, getAllInfo, getThree, getMatchingUsers, findFriendship, cancelFriendship, insertFriendship, updateFriendshipTrue, findFriendsOrWhoWantsToBe, getLatestMessages } = require("./sql/db.js")
+const { addUser, checkEmail, insertCode, selectCode, updatePassword, updateImg, updateBio, getAllInfo, getThree, getMatchingUsers, findFriendship, cancelFriendship, insertFriendship, updateFriendshipTrue, findFriendsOrWhoWantsToBe, getLatestMessages, insertMessage } = require("./sql/db.js")
 const crypt = require("../bcrypt.js")
 const { uploader, fileUpload } = require("./uploads/upload.js")
 
@@ -368,34 +368,32 @@ server.listen(PORT, function () {
 
 // SOCKET
 
-// io.on("connection", async (socket) => {
-//     console.log("[social:socket] incoming socket connection", socket.id);
-//     const { userId } = socket.request.session;
-//     if (!userId) {
-//         return socket.disconnect(true);
-//     } else {
-//         console.log("new connection")
-//     // retrieve the latest 10 messages
-//         const latestMessages = getLatestMessages()
-//         .then(messages => {
-//             console.log(messages)
-//             // and send them to the client who has just connected
-//             socket.emit("chatMessages", [ messages ]); 
-//         })
-//     }
-// });
-   
+io.on("connection", async (socket) => {
+    console.log("[social:socket] incoming socket connection", socket.id);
+    const { userId } = socket.request.session;
+    if (!userId) {
+        return socket.disconnect(true);
+    } else {
 
-//     // listen for when the connected user sends a message
-//     socket.on("chatMessage", (text) => {
-//        // store the message in the db
-//        const newMessage = ...
+        console.log("new connection", userId)
+    // retrieve the latest 10 messages
+        const latestMessages = getLatestMessages()
+        .then(messages => {
+            console.log(messages)
+            // and send them to the client who has just connected
+            socket.emit("chatMessages",  messages.rows ); 
+        })
+    }
+    // listen for when the connected user sends a message
+    socket.on("chatMessage", async (text) => {
+       // store the message in the db
+       console.log("texttext", text)
+       const newMessage = await insertMessage(userId, text)
 
-//        // then broadcast the message to all connected users (included the sender!)
-//        // hint: you need the sender info (name, picture...) as well
-//        // how can you retrieve it?
-//        io.emit('chatMessage', ...);
-//     });
-//     }
+       // then broadcast the message to all connected users (included the sender!)
+       // hint: you need the sender info (name, picture...) as well
+       // how can you retrieve it?
+       io.emit('chatMessage', newMessage.rows[0]);
+    });
+});
 
-// });

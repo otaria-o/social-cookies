@@ -36,7 +36,7 @@ export function Friends ({ }) {
                         </div>
                         <div className="dati">
                         <h3>{almostFriend.first} {almostFriend.last}</h3>
-                        <FriendButton otherUserId={almostFriend.id}/>
+                        {/* <FriendButton otherUserId={almostFriend.id}/> */}
                         </div>     
                     </div>))}                   
                 </div> 
@@ -52,7 +52,7 @@ export function Friends ({ }) {
                         </div>
                         <div className="dati">
                         <h3>{friend.first} {friend.last}</h3>
-                        <FriendButton otherUserId={friend.id}/>
+                        {/* <FriendButton otherUserId={friend.id}/> */}
                         </div> 
                     </div>))}
                 </div> 
